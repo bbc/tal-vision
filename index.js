@@ -7,7 +7,7 @@ var app = express();
 app.configure(function(){
   app.engine('hbs', hbs.express3({
     layoutsDir: __dirname + '/src/templates/layout',
-    partialsDir: __dirname + '/src/templates/partials',
+    //partialsDir: __dirname + '/src/templates/partials',
     defaultLayout:  __dirname + '/src/templates/layout/tv'
   }));
 
