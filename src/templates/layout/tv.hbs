@@ -1,0 +1,49 @@
+{{{doctype}}}
+{{{rootTag}}}
+<head>
+  <title>{{ title }}</title>
+  {{{deviceHeaders}}}
+  <link rel="stylesheet" href="/style/base.css"/>
+  <script>
+    var antie = {{{json antieConfig compact=true}}};
+    var require = {
+      baseUrl: "",
+      paths: {
+        '{{app_id}}': 'js',
+        antie : "/components/tal/static/script"
+      },
+      priority: [],
+      callback: function() {}
+    };
+  </script>
+  <script src="/components/requirejs/require.js"></script>
+</head>
+<body>
+{{{deviceBody}}}
+
+<div id="static-loading-screen" style="position: absolute; width: 100%; height: 100%;">
+  Application is loading the TAL Application...
+</div>
+
+<div id="app" class="display-none"></div>
+
+<script>
+  require(
+    [
+      '{{app_id}}/appui/bootstrap'
+    ],
+    function(SampleApp) {
+
+      require.ready(function() {
+        function onReady() {
+          var staticLoadingScreen = document.getElementById('static-loading-screen');
+          staticLoadingScreen.parentNode.removeChild(staticLoadingScreen);
+        };
+
+        var app = SampleApp(document.getElementById('app'), 'style/', 'img/', onReady);
+      });
+    }
+  );
+</script>
+</body>
+</html>

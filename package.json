@@ -1,0 +1,36 @@
+{
+  "name": "tal-vision",
+  "version": "0.1.0",
+  "description": "Lancaster Vision TAL Application.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -e js,css,hbs,css,less index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "config": {
+    "port": "3000"
+  },
+  "tal": {
+    "default": {
+      "application_id": "lancaster-vision"
+    }
+  },
+  "keywords": [
+    "tv",
+    "bbc",
+    "bbcrd",
+    "second",
+    "screen"
+  ],
+  "author": "Thomas Parisot",
+  "license": "Apache-2",
+  "dependencies": {
+    "express": "~3.4.0",
+    "express-hbs": "~0.3.0",
+    "tal": "oncletom/node-tal#master",
+    "tal-config": "oncletom/tal-config#master"
+  },
+  "devDependencies": {
+    "nodemon": "~1.0.14"
+  }
+}

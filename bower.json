@@ -1,0 +1,20 @@
+{
+  "name": "tal-vision",
+  "main": "index.js",
+  "version": "0.1.0",
+  "authors": [
+  ],
+  "license": "Apache-2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~0.15.0",
+    "tal": "https://github.com/fmtvp/tal.git#~1.4.5"
+  }
+}
