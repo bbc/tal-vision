@@ -14,7 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "requirejs": "~0.15.0",
-    "tal": "https://github.com/fmtvp/tal.git#~1.4.5"
+    "requirejs": "jrburke/requirejs#~0.15.0",
+    "tal": "fmtvp/tal.git#~1.4.5"
   }
 }
