@@ -1,0 +1,8 @@
+#app {
+  position: relative;
+  overflow: hidden;
+  width: 1280px;
+  height: 720px;
+  top: 50%;
+  margin: -360px auto 0 auto;
+}
