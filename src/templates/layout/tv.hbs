@@ -1,15 +1,15 @@
-{{{doctype}}}
-{{{rootTag}}}
+{{{tal.doctype}}}
+{{{tal.rootTag}}}
 <head>
   <title>{{ title }}</title>
-  {{{deviceHeaders}}}
+  {{{tal.deviceHeaders}}}
   <link rel="stylesheet" href="/style/base.css"/>
   <script>
-    var antie = {{{json antieConfig compact=true}}};
+    var antie = {{{json tal.config compact=true}}};
     var require = {
       baseUrl: "",
       paths: {
-        '{{app_id}}': 'js',
+        '{{tal.app_id}}': 'js',
         antie : "/components/tal/static/script"
       },
       priority: [],
@@ -19,7 +19,7 @@
   <script src="/components/requirejs/require.js"></script>
 </head>
 <body>
-{{{deviceBody}}}
+{{{tal.deviceBody}}}
 
 <div id="static-loading-screen" style="position: absolute; width: 100%; height: 100%;">
   Application is loading the TAL Application...
@@ -30,7 +30,7 @@
 <script>
   require(
     [
-      '{{app_id}}/appui/bootstrap'
+      '{{tal.app_id}}/appui/bootstrap'
     ],
     function(SampleApp) {
 
