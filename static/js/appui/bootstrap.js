@@ -1,9 +1,10 @@
 require.def('lancaster-vision/appui/bootstrap',
   [
     'antie/application',
-    'antie/widgets/container'
+    'antie/widgets/container',
+    'lancaster-vision/lib/authenticator'
   ],
-  function(Application, Container) {
+  function(Application, Container, Authenticator) {
 
     return Application.extend({
       init: function(appDiv, styleDir, imgDir, callback) {
@@ -22,19 +23,18 @@ require.def('lancaster-vision/appui/bootstrap',
       },
 
       run: function() {
-        // Called from run() as we need the framework to be ready beforehand.
+        var self = this;
+
         this._setRootContainer();
 
-        /*
-        Authenticator.verify(
+        Authenticator(this.getDevice()).verify(
           function success(response){
-            this.ready();
+            self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/home");
           },
           function failure(response){
-            this.ready();
+            self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/login");
           }
         );
-         */
       }
     });
   }
