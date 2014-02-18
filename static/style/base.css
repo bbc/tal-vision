@@ -120,6 +120,11 @@ body {
   color: #000000;
 }
 
+.buttonDisabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
 .buttonFocussed.menuendpoint {
   background-color: #FFD700;
 }
@@ -148,18 +153,8 @@ body {
   visibility: hidden !important;
 }
 
-
-[id$="-player"] {
-  height: 0;
-  overflow: hidden;
-  padding-bottom: 56.25%;
-  padding-top: 30px;
-  position: relative;
-}
-.widget.component .media {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+/* sign-in form */
+#signin-form {
+  max-width: 600px;
+  margin: 0 auto;
 }
