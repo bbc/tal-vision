@@ -11,5 +11,7 @@ pids
 logs
 results
 
+!static/js/appui/components
+
 npm-debug.log
 node_modules
