@@ -25,7 +25,7 @@
   Application is loading the TAL Application...
 </div>
 
-<div id="app" class="display-none"></div>
+<div id="app" class="display-none">{{{ body }}}</div>
 
 <script>
   require(
@@ -38,9 +38,9 @@
         function onReady() {
           var staticLoadingScreen = document.getElementById('static-loading-screen');
           staticLoadingScreen.parentNode.removeChild(staticLoadingScreen);
-        };
+        }
 
-        var app = SampleApp(document.getElementById('app'), 'style/', 'img/', onReady);
+        var app = new SampleApp(document.getElementById('app'), 'style/', 'img/', onReady);
       });
     }
   );

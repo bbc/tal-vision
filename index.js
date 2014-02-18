@@ -20,6 +20,7 @@ app.configure(function(){
 app.use('/components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/static'));
 
+app.use(require('./src/helpers/tal')(app));
 app.get('/', require('./src/routes/home'));
 
 app.listen(process.env.PORT || process.env.npm_package_config_port);
