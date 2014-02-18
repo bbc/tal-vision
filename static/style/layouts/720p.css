@@ -6,3 +6,8 @@
   top: 50%;
   margin: -360px auto 0 auto;
 }
+
+.keyboardButton {
+  height: 35px;
+  width: 35px;
+}

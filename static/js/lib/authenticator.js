@@ -1,10 +1,14 @@
 require.def('lancaster-vision/lib/authenticator', [], function(){
-  var endpoint = '/auth?code=';
-
   return function(device){
     return {
-      verify: function(successCallback, failureCallback){
-        device.loadURL(endpoint, {
+      verify: function(token, successCallback, failureCallback){
+        device.loadURL('/auth/' + token, {
+          onLoad: successCallback,
+          onError: failureCallback
+        });
+      },
+      isAuthenticated: function(successCallback, failureCallback){
+        device.loadURL('/auth', {
           onLoad: successCallback,
           onError: failureCallback
         });
