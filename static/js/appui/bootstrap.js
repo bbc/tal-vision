@@ -27,7 +27,7 @@ require.def('lancaster-vision/appui/bootstrap',
 
         this._setRootContainer();
 
-        Authenticator(this.getDevice()).verify(
+        Authenticator(this.getDevice()).isAuthenticated(
           function success(response){
             self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/home");
           },

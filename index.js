@@ -20,11 +20,12 @@ app.configure(function(){
   require('./src/templates/helpers')(hbs);
 });
 
+
 app.use('/components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/static'));
 
 app.use(require('./src/helpers/tal')(app));
 app.get('/', require('./src/routes/home'));
-app.get('/auth', require('./src/routes/auth'));
+app.get('/auth/:auth_code?', require('./src/routes/auth'));
 
 app.listen(process.env.PORT || process.env.npm_package_config_port);
