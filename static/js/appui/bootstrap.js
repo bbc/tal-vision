@@ -28,10 +28,10 @@ require.def('lancaster-vision/appui/bootstrap',
         /*
         Authenticator.verify(
           function success(response){
-
+            this.ready();
           },
           function failure(response){
-
+            this.ready();
           }
         );
          */

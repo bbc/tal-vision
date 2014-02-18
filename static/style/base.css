@@ -5,6 +5,7 @@ html {
 
 body {
   background: #fff;
+  font-family: "Helvetica", sans-serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -68,20 +69,85 @@ body {
 .sometv.layout540p #app {
   width: 960px;
   height: 540px;
-  /*background-image: url(some/image/url_540.png); */
 }
 
 .sometv.layout720p #app {
   width: 1280px;
   height: 720px;
-  /*background-image: url(some/image/url_720.png); */
 }
 
 .sometv.layout1080p #app {
   width: 1920px;
   height: 1080px;
-  /*background-image: url(some/image/url_1080.png); */
 }
+
+.samsung.layout540p #app {
+  width: 960px;
+  height: 540px;
+}
+
+.samsung.layout720p #app {
+  width: 1280px;
+  height: 720px;
+}
+
+.samsung.layout1080p #app {
+  width: 1920px;
+  height: 1080px;
+}
+
+/* App specific styles */
+#title {
+  font-size: 150%;
+  line-height: 120%;
+  display: block;
+  text-align: center;
+  margin: 2% auto 0 auto;
+}
+
+.button {
+  background-color: #DCDCDC;
+  display: block;
+  text-align: center;
+  max-width: 600px;
+  padding: 8px;
+  margin: 8px auto 0 auto;
+  color: #000000;
+}
+
+.buttonFocussed {
+  background-color: #FFD700;
+  color: #000000;
+}
+
+.buttonFocussed.menuendpoint {
+  background-color: #FFD700;
+}
+
+.background-none {
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+.description {
+  text-align: center;
+  display: block;
+  position: absolute;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  padding: 8px 0px;
+}
+
+/* Display & Visibility Helpers */
+.display-none {
+  display: none !important;
+}
+
+.visibility-hidden {
+  visibility: hidden !important;
+}
+
 
 [id$="-player"] {
   height: 0;
