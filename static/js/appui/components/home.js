@@ -9,11 +9,14 @@ require.def('lancaster-vision/appui/components/home',
   ],
   function(Component, Button, Label, ComponentContainer, VerticalList, HorizontalList) {
 
-    var createLabelledButton = function (label, id){
+    var createLabelledButton = function (label, id, options){
       var button = new Button(id);
       var label = new Label(label);
 
+      options = options || {};
+
       button.appendChildWidget(label);
+      button.setDisabled(options.disabled || false);
 
       return button;
     };
@@ -29,12 +32,19 @@ require.def('lancaster-vision/appui/components/home',
         var skeleton = new VerticalList('content-to-navigation');
 
         // Horizontal Menu
-        var menu = new HorizontalList();
-        menu.appendChildWidget(createLabelledButton('Home'));
-        menu.appendChildWidget(createLabelledButton('Browse'));
-        menu.appendChildWidget(createLabelledButton('History'));
-        menu.appendChildWidget(createLabelledButton('Search'));
-        menu.appendChildWidget(createLabelledButton('Trending'));
+        var menu = new HorizontalList('app-navigation');
+        menu.appendChildWidget(createLabelledButton('Home', 'home'));
+        menu.appendChildWidget(createLabelledButton('Browse', 'browse', { disabled: true }));
+        menu.appendChildWidget(createLabelledButton('History', 'history', { disabled: true }));
+        menu.appendChildWidget(createLabelledButton('Search', 'search'));
+        menu.appendChildWidget(createLabelledButton('Trending', 'trending', { disabled: true }));
+
+        // Launch the components
+        menu.getChildWidgets().forEach(function(widget){
+          widget.addEventListener('select', function(){
+            skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/' + widget.id);
+          });
+        });
 
         // Ordering Elements
         skeleton.appendChildWidget(new ComponentContainer('content-container'));
