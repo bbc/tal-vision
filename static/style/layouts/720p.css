@@ -7,7 +7,29 @@
   margin: -360px auto 0 auto;
 }
 
+.fakeInput {
+  border: 2px solid #ddd;
+  display: inline-block;
+  padding: 5px 10px;
+}
+.fakeInput.placeholder {
+  color: #999;
+}
+
+.keyboard .spacer,
 .keyboardButton {
-  height: 35px;
-  width: 35px;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin-right: 3px;
+  width: 30px;
+}
+
+.keyDEL.lastcol {
+  float: right;
+  margin-right: 0;
+}
+
+.keyboard {
+  width: 100%;
 }
