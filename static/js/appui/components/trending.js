@@ -7,9 +7,11 @@ require.def('lancaster-vision/appui/components/trending',
     "lancaster-vision/appui/formatters/simpleformatter",
     "lancaster-vision/appui/datasources/trendingfeed",
     "antie/widgets/carousel/binder",
-    "antie/widgets/carousel/keyhandlers/alignfirsthandler"
+    "antie/widgets/carousel/keyhandlers/alignfirsthandler",
+    "antie/widgets/button",
+    "antie/widgets/label"
   ],
-  function (Component, DataSource, Carousel, Label, SimpleFormatter, TrendingFeed, Binder, AlignFirstHandler) {
+  function (Component, DataSource, Carousel, Label, SimpleFormatter, TrendingFeed, Binder, AlignFirstHandler, Button, Label) {
 
     // All components extend Component
     return Component.extend({
@@ -38,11 +40,26 @@ require.def('lancaster-vision/appui/components/trending',
         // Attach keyhandlers to support left right keyboard navigation
         var keyhandler = new AlignFirstHandler();
         keyhandler.attach(this._carousel);
+
+        // Return to menu button
+        label = new Label("Return to Menu");
+        this._return_button = new Button();
+        this._return_button.appendChildWidget(label);
+
+        this.addEventListener("beforerender", function (ev) {
+          self._onBeforeRender(ev);
+        });
       },
 
       _onDataBound: function (evt) {
         var children = this._carousel.getChildWidgets();
-        children[0].setFocus();
+        children[0].focus();
+      },
+
+      // Appending widgets on beforerender ensures they're still displayed
+      // if the component is hidden and subsequently reinstated.
+      _onBeforeRender: function () {
+        this.appendChildWidget(this._return_button);
       }
     });
   }
