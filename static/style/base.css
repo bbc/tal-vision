@@ -158,3 +158,23 @@ body {
   max-width: 600px;
   margin: 0 auto;
 }
+
+/* Trending carousel */
+#trending_carousel_component .carouselmask {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#trending_carousel_component .carouselwidgetstrip {
+  position: relative;
+}
+
+#trending_carousel_component .carouselItem {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+#trending_carousel_component .carouselItem .label {
+  margin: 15px 0 5px;
+  display: inline-block;
+}
