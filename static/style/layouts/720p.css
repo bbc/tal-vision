@@ -5,6 +5,7 @@
   height: 720px;
   top: 50%;
   margin: -360px auto 0 auto;
+  background-color: #fff;
 }
 
 .fakeInput {
@@ -32,4 +33,10 @@
 
 .keyboard {
   width: 100%;
+}
+
+.airadd {
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
