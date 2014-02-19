@@ -29,7 +29,7 @@ require.def('lancaster-vision/appui/bootstrap',
 
         Authenticator(this.getDevice()).isAuthenticated(
           function success(response){
-            self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/home");
+            self.addComponentContainer("maincontainer", "lancaster-vision/appui/controller");
           },
           function failure(response){
             self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/login");

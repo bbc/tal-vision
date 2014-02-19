@@ -1,25 +1,9 @@
 require.def('lancaster-vision/appui/components/home',
   [
     "antie/widgets/component",
-    "antie/widgets/button",
-    "antie/widgets/label",
-    "antie/widgets/componentcontainer",
-    "antie/widgets/verticallist",
-    "antie/widgets/horizontallist"
+    "antie/widgets/label"
   ],
-  function(Component, Button, Label, ComponentContainer, VerticalList, HorizontalList) {
-
-    var createLabelledButton = function (label, id, options){
-      var button = new Button(id);
-      var label = new Label(label);
-
-      options = options || {};
-
-      button.appendChildWidget(label);
-      button.setDisabled(options.disabled || false);
-
-      return button;
-    };
+  function(Component, Label) {
 
     return Component.extend({
       init: function () {
@@ -28,30 +12,7 @@ require.def('lancaster-vision/appui/components/home',
 
         this._super("home");
 
-        // Vertical Skeleton Navigation
-        var skeleton = new VerticalList('content-to-navigation');
-
-        // Horizontal Menu
-        var menu = new HorizontalList('app-navigation');
-        menu.appendChildWidget(createLabelledButton('Home', 'home'));
-        menu.appendChildWidget(createLabelledButton('Browse', 'browse', { disabled: true }));
-        menu.appendChildWidget(createLabelledButton('History', 'history', { disabled: true }));
-        menu.appendChildWidget(createLabelledButton('Search', 'search'));
-        menu.appendChildWidget(createLabelledButton('Trending', 'trending', { disabled: true }));
-
-        // Launch the components
-        menu.getChildWidgets().forEach(function(widget){
-          widget.addEventListener('select', function(){
-            skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/' + widget.id);
-          });
-        });
-
-        // Ordering Elements
-        skeleton.appendChildWidget(new ComponentContainer('content-container'));
-        skeleton.appendChildWidget(menu);
-
-        //
-        widgets.push(skeleton);
+        widgets.push(new Label("Homescreen"));
 
         this.addEventListener("beforerender", function (e) {
           self._onBeforeRender(e, widgets);
