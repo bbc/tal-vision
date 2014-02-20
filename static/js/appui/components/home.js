@@ -1,26 +1,21 @@
 require.def('lancaster-vision/appui/components/home',
   [
     "antie/widgets/component",
-    "antie/widgets/button",
     "antie/widgets/label"
   ],
-  function(Component, Button, Label) {
+  function(Component, Label) {
 
     return Component.extend({
       init: function () {
-        var self, label, button;
+        var self = this;
+        var widgets = [];
 
-        self = this;
-        // It is important to call the constructor of the superclass
         this._super("home");
 
-        // Hello World
-        label = new Label("Hello World");
-        this._button = new Button();
-        this._button.appendChildWidget(label);
+        widgets.push(new Label("Homescreen"));
 
-        this.addEventListener("beforerender", function (ev) {
-          self._onBeforeRender(ev);
+        this.addEventListener("beforerender", function (e) {
+          self._onBeforeRender(e, widgets);
         });
 
         // calls Application.ready() the first time the component is shown
@@ -33,8 +28,12 @@ require.def('lancaster-vision/appui/components/home',
 
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
-      _onBeforeRender: function () {
-        this.appendChildWidget(this._button);
+      _onBeforeRender: function (e, widgets) {
+        var self = this;
+
+        widgets.forEach(function(widget){
+          self.appendChildWidget(widget);
+        });
       }
     });
   }

@@ -1,51 +1,34 @@
-require.def('lancaster-vision/appui/components/login',
+require.def('lancaster-vision/appui/components/search',
   [
     "antie/widgets/component",
     "antie/widgets/button",
     "antie/widgets/keyboard",
     "antie/widgets/label",
     "antie/widgets/verticallist",
-    "antie/widgets/componentcontainer",
-    "lancaster-vision/lib/authenticator"
+    "antie/widgets/container"
 
   ],
-  function(Component, Button, Keyboard, Label, List, Container, Authenticator) {
+  function(Component, Button, Keyboard, Label, List, Container) {
 
     return Component.extend({
       init: function () {
         var self = this;
-        var app = this.getCurrentApplication();
-        var device = app.getDevice();
 
         this._super("login");
 
-        this._form = new Container('signin-form');
-        this._form.appendChildWidget(new Label("Please authenticate to continue."));
+        this._form = new Container('search-form');
 
         var list = new List();
-        var input = new Label("********");
+        var input = new Label();
         input.addClass('fakeInput');
         input.addClass('placeholder')
 
         var button = new Button('ok')
-        button.appendChildWidget(new Label("Verify"));
+        button.appendChildWidget(new Label("Search"));
         button.addClass('okButton');
         button.setDisabled(true);
 
-        button.addEventListener('select', function(e){
-          button.setDisabled(true);
-
-          Authenticator(device).verify(keyboard.getText(), function(user){
-            app.showComponent('maincontainer', 'lancaster-vision/appui/controller');
-          }, function(){
-            button.setDisabled(false);
-            keyboard.setActiveChildKey('1');
-            input.setText('********');
-            keyboard.setText('');
-          })
-        });
-
-        var keyboard = new Keyboard('auth_key', 12, 1, '1234567890_-');
+        var keyboard = new Keyboard('search_', 13, 4, '1234567890_- QWERTYUIOP___ASDFGHJKL____ZXCVBNM______');
         keyboard.setActiveChildKey('1');
         keyboard.addEventListener('textchange', function(e){
           input.setText(e.text);

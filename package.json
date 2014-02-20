@@ -28,7 +28,8 @@
     "express": "~3.4.0",
     "express-hbs": "~0.3.0",
     "tal": "git+https://github.com/oncletom/node-tal.git#master",
-    "tal-config": "git+https://github.com/oncletom/tal-config.git#master"
+    "tal-config": "git+https://github.com/oncletom/tal-config.git#master",
+    "connect-redis": "^1.4.7"
   },
   "devDependencies": {
     "nodemon": "~1.0.14"

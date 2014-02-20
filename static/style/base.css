@@ -158,3 +158,11 @@ body {
   max-width: 600px;
   margin: 0 auto;
 }
+
+#app-navigation {
+  text-align: center;
+}
+
+  #app-navigation .listitem.button {
+    margin-right: 2px;
+  }
