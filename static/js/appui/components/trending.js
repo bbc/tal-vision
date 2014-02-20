@@ -1,16 +1,17 @@
 require.def('lancaster-vision/appui/components/trending',
   [
+    "antie/application",
     "antie/widgets/component",
     "antie/datasource",
     "antie/widgets/carousel",
     "antie/widgets/label",
-    "lancaster-vision/appui/formatters/simpleformatter",
+    "lancaster-vision/appui/formatters/trendingformatter",
     "lancaster-vision/appui/datasources/trendingfeed",
     "antie/widgets/carousel/binder",
     "antie/widgets/carousel/keyhandlers/alignfirsthandler",
-    "antie/widgets/button"
+    "lancaster-vision/lib/dataevent"
   ],
-  function (Component, DataSource, Carousel, Label, SimpleFormatter, TrendingFeed, Binder, AlignFirstHandler, Button) {
+  function (Application, Component, DataSource, Carousel, Label, TrendingFormatter, TrendingFeed, Binder, AlignFirstHandler, Event) {
 
     // All components extend Component
     return Component.extend({
@@ -19,7 +20,7 @@ require.def('lancaster-vision/appui/components/trending',
         this._super("trending_carousel_component");
 
         // Create a simple formatter and data feed that will be used to populate the carousel
-        var trendingFormatter = new SimpleFormatter();
+        var trendingFormatter = new TrendingFormatter();
         var trendingFeed = new TrendingFeed(this);
         this._dataSource = new DataSource(this, trendingFeed, "loadData");
 
@@ -39,7 +40,6 @@ require.def('lancaster-vision/appui/components/trending',
         var keyhandler = new AlignFirstHandler();
         keyhandler.attach(this._carousel);
 
-
         this.addEventListener("beforerender", function (ev) {
           self._onBeforeRender(ev);
         });
@@ -48,6 +48,18 @@ require.def('lancaster-vision/appui/components/trending',
       _onDataBound: function (evt) {
         var children = this._carousel.getChildWidgets();
         children[0].focus();
+
+        // Launch the components
+        this._carousel.getChildWidgets().forEach(function(widget) {
+          widget.addEventListener('select', function(e) {
+            try {
+              widget.bubbleEvent(new Event('vod.show', e.target.getDataItem()));
+            }
+            catch (e) {
+              console.log(e.message);
+            }
+          });
+        });
       },
 
       // Appending widgets on beforerender ensures they're still displayed

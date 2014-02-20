@@ -1,4 +1,4 @@
-require.def('lancaster-vision/appui/formatters/simpleformatter',
+require.def('lancaster-vision/appui/formatters/trendingformatter',
   [
     "antie/formatter",
     "antie/widgets/label",
@@ -12,10 +12,11 @@ require.def('lancaster-vision/appui/formatters/simpleformatter',
         item = iterator.next();
 
         item.image_url = "http://148.88.32.64/cache/355x200-2/programmes/" + item.image;
-        
+
         button = new Button("trending_" + item.programme_id);
         button.appendChildWidget(new Image("trending_img_" + item.programme_id, item.image_url, { width : 355, height: 200}));
         button.appendChildWidget(new Label(item.programme_name));
+        button.setDataItem(item);
 
         return button;
       }
