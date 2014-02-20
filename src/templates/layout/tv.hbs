@@ -28,6 +28,14 @@
 <div id="app" class="display-none">{{{ body }}}</div>
 
 <script>
+  require.onError = function(e){
+    var div = document.createElement('div');
+    div.innerHTML = e.message;
+    div.className = 'message error-message';
+
+    document.body.appendChild(div);
+  };
+
   require(
     [
       '{{tal.app_id}}/appui/bootstrap'
@@ -42,6 +50,7 @@
 
         var app = new SampleApp(document.getElementById('app'), 'style/', 'img/', onReady);
       });
+
     }
   );
 </script>
