@@ -19,7 +19,8 @@ app.configure(function(){
     secret: "d563697315a1894a6f3152658cfd7e9034305e1",
     store: new redisStore({
       host: "localhost",
-      db: "lancaster-vision-tal"
+      db: "lancaster-vision-tal",
+      url : process.env.REDISTOGO_URL || null
     })
   }));
 
