@@ -48,6 +48,12 @@ require.def('lancaster-vision/appui/controller',
         this._content_container = new ComponentContainer('content-container');
         this._content_container.pushComponent('lancaster-vision/appui/components/trending');
 
+        this._content_container.addEventListener('vod.show', function(e){
+          var programme = e.args[0];
+
+          skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/video', programme});
+        });
+
         skeleton.appendChildWidget(this._content_container);
         skeleton.appendChildWidget(menu);
 

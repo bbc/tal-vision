@@ -9,9 +9,9 @@ require.def('lancaster-vision/appui/components/trending',
     "lancaster-vision/appui/datasources/trendingfeed",
     "antie/widgets/carousel/binder",
     "antie/widgets/carousel/keyhandlers/alignfirsthandler",
-    "antie/widgets/button"
+    "lancaster-vision/lib/dataevent"
   ],
-  function (Application, Component, DataSource, Carousel, Label, TrendingFormatter, TrendingFeed, Binder, AlignFirstHandler, Button) {
+  function (Application, Component, DataSource, Carousel, Label, TrendingFormatter, TrendingFeed, Binder, AlignFirstHandler, Event) {
 
     // All components extend Component
     return Component.extend({
@@ -51,10 +51,13 @@ require.def('lancaster-vision/appui/components/trending',
 
         // Launch the components
         this._carousel.getChildWidgets().forEach(function(widget) {
-          widget.addEventListener('select', function() {
-            var root = Application.getCurrentApplication().getRootWidget();
-            console.log(root);
-            root.getChildWidget('maincontainer').getChildWidget('maincontroller').getChildWidget('content-to-navigation').getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/home');
+          widget.addEventListener('select', function(e) {
+            try {
+              widget.bubbleEvent(new Event('vod.show', e.target.getDataItem()));
+            }
+            catch (e) {
+              console.log(e.message);
+            }
           });
         });
       },
