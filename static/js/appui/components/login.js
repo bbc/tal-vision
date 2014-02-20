@@ -36,7 +36,7 @@ require.def('lancaster-vision/appui/components/login',
           button.setDisabled(true);
 
           Authenticator(device).verify(keyboard.getText(), function(user){
-            app.showComponent('maincontainer', 'lancaster-vision/appui/components/home');
+            app.showComponent('maincontainer', 'lancaster-vision/appui/controller');
           }, function(){
             button.setDisabled(false);
             keyboard.setActiveChildKey('1');
