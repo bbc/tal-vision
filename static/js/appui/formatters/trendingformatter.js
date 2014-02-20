@@ -1,4 +1,4 @@
-require.def('lancaster-vision/appui/formatters/simpleformatter',
+require.def('lancaster-vision/appui/formatters/trendingformatter',
   [
     "antie/formatter",
     "antie/widgets/label",

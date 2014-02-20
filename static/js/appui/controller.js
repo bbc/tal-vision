@@ -72,6 +72,10 @@ require.def('lancaster-vision/appui/controller',
         var self = this;
 
         self.appendChildWidget(this._skeleton);
+      },
+
+      getContainer: function() {
+        return this._skeleton.getChildWidget('content-container');
       }
     });
   }
