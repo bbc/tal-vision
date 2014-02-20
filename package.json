@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon -e js,css,hbs,css,less index.js",
     "start-prod": "node index.js",
+    "postinstall": "npm install bower && bower install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "config": {
