@@ -153,6 +153,12 @@ body {
   visibility: hidden !important;
 }
 
+#maincontainer, #maincontroller, #content-to-navigation {
+  height: 100%;
+}
+
+
+
 /* sign-in form */
 #signin-form {
   max-width: 600px;
@@ -160,7 +166,10 @@ body {
 }
 
 #app-navigation {
+  bottom: 0;
+  position: absolute;
   text-align: center;
+  width: 100%;
 }
 
   #app-navigation .listitem.button {
