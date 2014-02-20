@@ -32,11 +32,10 @@ require.def('lancaster-vision/appui/controller',
 
         // Horizontal Menu
         var menu = new HorizontalList('app-navigation');
-        menu.appendChildWidget(createLabelledButton('Home', 'home'));
+        menu.appendChildWidget(createLabelledButton('Home', 'trending'));
         menu.appendChildWidget(createLabelledButton('Browse', 'browse', { disabled: true }));
         menu.appendChildWidget(createLabelledButton('History', 'history', { disabled: true }));
         menu.appendChildWidget(createLabelledButton('Search', 'search'));
-        menu.appendChildWidget(createLabelledButton('Trending', 'trending', { disabled: true }));
 
         // Launch the components
         menu.getChildWidgets().forEach(function(widget){
@@ -47,7 +46,7 @@ require.def('lancaster-vision/appui/controller',
 
         // Ordering Elements
         this._content_container = new ComponentContainer('content-container');
-        this._content_container.pushComponent('lancaster-vision/appui/components/home');
+        this._content_container.pushComponent('lancaster-vision/appui/components/trending');
 
         skeleton.appendChildWidget(this._content_container);
         skeleton.appendChildWidget(menu);

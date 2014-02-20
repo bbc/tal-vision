@@ -8,10 +8,9 @@ require.def('lancaster-vision/appui/components/trending',
     "lancaster-vision/appui/datasources/trendingfeed",
     "antie/widgets/carousel/binder",
     "antie/widgets/carousel/keyhandlers/alignfirsthandler",
-    "antie/widgets/button",
-    "antie/widgets/label"
+    "antie/widgets/button"
   ],
-  function (Component, DataSource, Carousel, Label, SimpleFormatter, TrendingFeed, Binder, AlignFirstHandler, Button, Label) {
+  function (Component, DataSource, Carousel, Label, SimpleFormatter, TrendingFeed, Binder, AlignFirstHandler, Button) {
 
     // All components extend Component
     return Component.extend({
@@ -26,8 +25,7 @@ require.def('lancaster-vision/appui/components/trending',
 
         // Create a new carousel and append it to the component
         this._carousel = new Carousel("trending_carousel", Carousel.orientations.HORIZONTAL);
-        this.appendChildWidget(this._carousel);
-        
+
         // Setup event listeners to set focus on first widget after data binding
         this._carousel.addEventListener("databound", function (evt) {
           self._onDataBound(evt);
@@ -41,10 +39,6 @@ require.def('lancaster-vision/appui/components/trending',
         var keyhandler = new AlignFirstHandler();
         keyhandler.attach(this._carousel);
 
-        // Return to menu button
-        label = new Label("Return to Menu");
-        this._return_button = new Button();
-        this._return_button.appendChildWidget(label);
 
         this.addEventListener("beforerender", function (ev) {
           self._onBeforeRender(ev);
@@ -59,7 +53,7 @@ require.def('lancaster-vision/appui/components/trending',
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function () {
-        this.appendChildWidget(this._return_button);
+        this.appendChildWidget(this._carousel);
       }
     });
   }
