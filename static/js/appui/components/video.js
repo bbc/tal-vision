@@ -13,10 +13,6 @@ require.def('lancaster-vision/appui/components/video',
     return Component.extend({
       init: function (test) {
         var app, self, label, button, image, device, playLabel, pauseLabel;
-
-
-        console.log('test id access = '+test);
-        console.log(arguments);
         self = this;
         app = this.getCurrentApplication();
         device = app.getDevice();
@@ -46,22 +42,15 @@ require.def('lancaster-vision/appui/components/video',
 
         this._videoPlayer = device.createPlayer("player", "video");
 
-        function queueVideo(id)
-        {
-          self._videoPlayer.setSources([
-            new MediaSource("http://148.88.67.137/"+id+".mp4", "video/mp4")
-          ]);
-          self._videoPlayer.load();
-        }
 
-         device.loadURL("http://localhost:3000/api_stubs/viewing_history.json", {
-          onLoad: function(responseObject) {
-            var data = JSON.parse(responseObject);
-            queueVideo(data[0].programme_id);
-          },
-          onError: function(response) {
-          }
-        });
+        //  device.loadURL("http://localhost:3000/api_stubs/viewing_history.json", {
+        //   onLoad: function(responseObject) {
+        //     var data = JSON.parse(responseObject);
+        //     queueVideo(data[0].programme_id);
+        //   },
+        //   onError: function(response) {
+        //   }
+        // });
 
         this.addEventListener("beforerender", function (ev) {
           self._onBeforeRender(ev);
@@ -77,10 +66,20 @@ require.def('lancaster-vision/appui/components/video',
 
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
-      _onBeforeRender: function () {
+      _onBeforeRender: function (e) {
+        console.log('_onBeforeRender = '+e.args.programme_id)
         this.appendChildWidget(this._controls);
         this.appendChildWidget(this._videoPlayer);
+        this.queueVideo(e.args.programme_id);
+      },
 
+      queueVideo: function(id)
+      {
+        console.log('queueVideo');
+        this._videoPlayer.setSources([
+          new MediaSource("http://148.88.67.137/"+id+".mp4", "video/mp4")
+        ]);
+        this._videoPlayer.load();
       }
     });
   }
