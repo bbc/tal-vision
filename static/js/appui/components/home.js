@@ -1,9 +1,10 @@
 require.def('lancaster-vision/appui/components/home',
   [
     "antie/widgets/component",
+    "antie/widgets/button",
     "antie/widgets/label"
   ],
-  function(Component, Label) {
+  function(Component, Button, Label) {
 
     return Component.extend({
       init: function () {
@@ -12,7 +13,15 @@ require.def('lancaster-vision/appui/components/home',
 
         this._super("home");
 
-        widgets.push(new Label("Homescreen"));
+        // Hello World
+        var button = new Button();
+        button.appendChildWidget(new Label("Trending Programmes"));
+
+        button.addEventListener("select", function(evt) {
+          self.getCurrentApplication().pushComponent("maincontainer", "lancaster-vision/appui/components/trending");
+        });
+
+        widgets.push(button);
 
         this.addEventListener("beforerender", function (e) {
           self._onBeforeRender(e, widgets);
