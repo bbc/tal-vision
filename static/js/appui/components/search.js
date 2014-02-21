@@ -5,10 +5,10 @@ require.def('lancaster-vision/appui/components/search',
     "antie/widgets/keyboard",
     "antie/widgets/label",
     "antie/widgets/verticallist",
-    "antie/widgets/container"
-
+    "antie/widgets/container",
+    "lancaster-vision/appui/widgets/inputtext"
   ],
-  function(Component, Button, Keyboard, Label, List, Container) {
+  function(Component, Button, Keyboard, Label, List, Container, InputText) {
 
     return Component.extend({
       init: function () {
@@ -19,29 +19,24 @@ require.def('lancaster-vision/appui/components/search',
         this._form = new Container('search-form');
 
         var list = new List();
-        var input = new Label();
-        input.addClass('fakeInput');
-        input.addClass('placeholder')
+        var input = new InputText('', 'Eg: Doctor Who, Coronation Street', { placeholder: true });
 
         var button = new Button('ok')
         button.appendChildWidget(new Label("Search"));
         button.addClass('okButton');
         button.setDisabled(true);
 
+        input.addEventListener('empty', function(){
+          button.setDisabled(true);
+        });
+        input.addEventListener('not-empty', function(){
+          button.setDisabled(false);
+        });
+
         var keyboard = new Keyboard('search_', 13, 4, '1234567890_- QWERTYUIOP___ASDFGHJKL____ZXCVBNM______');
         keyboard.setActiveChildKey('1');
         keyboard.addEventListener('textchange', function(e){
           input.setText(e.text);
-
-          if (e.text.length) {
-            input.removeClass('placeholder');
-            button.setDisabled(false);
-          }
-          else {
-            input.addClass('placeholder');
-            input.setText('********');
-            button.setDisabled(true);
-          }
         });
 
         list.appendChildWidget(input);

@@ -195,3 +195,13 @@ body {
   margin: 15px 0 5px;
   display: inline-block;
 }
+
+/* InputText */
+.input-text {
+  border: 2px solid #ddd;
+  display: inline-block;
+  padding: 5px 10px;
+}
+.input-text.placeholder-active {
+  color: #999;
+}

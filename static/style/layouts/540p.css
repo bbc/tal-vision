@@ -8,15 +8,6 @@
   background-color: #fff;
 }
 
-.fakeInput {
-  border: 2px solid #ddd;
-  display: inline-block;
-  padding: 5px 10px;
-}
-.fakeInput.placeholder {
-  color: #999;
-}
-
 .keyboard .spacer,
 .keyboardButton {
   display: inline-block;
