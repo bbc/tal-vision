@@ -24,7 +24,7 @@ require.def('lancaster-vision/appui/components/login',
         this._form.appendChildWidget(new Label("Please authenticate to continue."));
 
         var list = new List();
-        var input = new InputText("", "********", { placeholder: true });
+        var input = new InputText("********", { placeholder: true });
 
         //input.addClass('fakeInput');
         //input.addClass('placeholder')
