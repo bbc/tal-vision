@@ -6,10 +6,11 @@ require.def('lancaster-vision/appui/components/login',
     "antie/widgets/label",
     "antie/widgets/verticallist",
     "antie/widgets/componentcontainer",
-    "lancaster-vision/lib/authenticator"
+    "lancaster-vision/lib/authenticator",
+    "lancaster-vision/appui/widgets/inputtext"
 
   ],
-  function(Component, Button, Keyboard, Label, List, Container, Authenticator) {
+  function(Component, Button, Keyboard, Label, List, Container, Authenticator, InputText) {
 
     return Component.extend({
       init: function () {
@@ -23,14 +24,22 @@ require.def('lancaster-vision/appui/components/login',
         this._form.appendChildWidget(new Label("Please authenticate to continue."));
 
         var list = new List();
-        var input = new Label("********");
-        input.addClass('fakeInput');
-        input.addClass('placeholder')
+        var input = new InputText("", "********", { placeholder: true });
+
+        //input.addClass('fakeInput');
+        //input.addClass('placeholder')
 
         var button = new Button('ok')
         button.appendChildWidget(new Label("Verify"));
         button.addClass('okButton');
         button.setDisabled(true);
+
+        input.addEventListener('empty', function(){
+          button.setDisabled(true);
+        });
+        input.addEventListener('not-empty', function(){
+          button.setDisabled(false);
+        });
 
         button.addEventListener('select', function(e){
           button.setDisabled(true);
@@ -38,9 +47,8 @@ require.def('lancaster-vision/appui/components/login',
           Authenticator(device).verify(keyboard.getText(), function(user){
             app.showComponent('maincontainer', 'lancaster-vision/appui/controller');
           }, function(){
-            button.setDisabled(false);
             keyboard.setActiveChildKey('1');
-            input.setText('********');
+            input.setText('');
             keyboard.setText('');
           })
         });
@@ -49,16 +57,6 @@ require.def('lancaster-vision/appui/components/login',
         keyboard.setActiveChildKey('1');
         keyboard.addEventListener('textchange', function(e){
           input.setText(e.text);
-
-          if (e.text.length) {
-            input.removeClass('placeholder');
-            button.setDisabled(false);
-          }
-          else {
-            input.addClass('placeholder');
-            input.setText('********');
-            button.setDisabled(true);
-          }
         });
 
         list.appendChildWidget(input);
