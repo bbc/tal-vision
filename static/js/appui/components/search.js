@@ -19,12 +19,25 @@ require.def('lancaster-vision/appui/components/search',
         this._form = new Container('search-form');
 
         var list = new List();
-        var input = new InputText('', 'Eg: Doctor Who, Coronation Street', { placeholder: true });
+        var input = new InputText('Eg: Doctor Who, Coronation Street', { placeholder: true });
 
         var button = new Button('ok')
-        button.appendChildWidget(new Label("Search"));
+        button.appendChildWidget(new Label("Search", 'label'));
         button.addClass('okButton');
         button.setDisabled(true);
+
+        var keyboard = new Keyboard('search_', 13, 4, '1234567890_- _QWERTYUIOP____ASDFGHJKL_____ZXCVBNM___');
+        keyboard.setActiveChildKey('1');
+
+        list.appendChildWidget(input);
+        list.appendChildWidget(keyboard);
+        list.appendChildWidget(button);
+        this._form.appendChildWidget(list);
+
+        // Events
+        keyboard.addEventListener('textchange', function(e){
+          input.setText(e.text);
+        });
 
         input.addEventListener('empty', function(){
           button.setDisabled(true);
@@ -33,16 +46,15 @@ require.def('lancaster-vision/appui/components/search',
           button.setDisabled(false);
         });
 
-        var keyboard = new Keyboard('search_', 13, 4, '1234567890_- QWERTYUIOP___ASDFGHJKL____ZXCVBNM______');
-        keyboard.setActiveChildKey('1');
-        keyboard.addEventListener('textchange', function(e){
-          input.setText(e.text);
-        });
+        button.addEventListener('select', function(){
+          button.setDisabled(true);
+          button.getChildWidgets('label').setText('Searching…');
 
-        list.appendChildWidget(input);
-        list.appendChildWidget(keyboard);
-        list.appendChildWidget(button);
-        this._form.appendChildWidget(list);
+          // Perform the ajaz search and populate
+          /*
+
+           */
+        });
 
         this.addEventListener("beforerender", function(e){
           self._onBeforeRender(e);

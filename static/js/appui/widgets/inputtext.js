@@ -36,10 +36,10 @@ require.def('lancaster-vision/appui/widgets/inputtext',
        * @constructor
        * @ignore
        */
-      init: function(id, text, options) {
+      init: function(text, options) {
         this._options = options || {};
         this._initialText = (text === undefined ? "" : text);
-        this._super(id, text);
+        this._super(options.id, text);
 
         this.addClass('input-text');
 
