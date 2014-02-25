@@ -13,7 +13,8 @@ require.def('lancaster-vision/appui/datasources/trendingfeed',
         var device = app.getDevice();
 
         // Real API URL: http://10.42.32.199:2000/trending
-        device.loadURL("/api_stubs/trending.json", {
+        // Stub API URL: /api_stubs/trending.json
+        device.loadURL("http://10.42.32.199:2000/trending", {
           onLoad: function(responseObject) {
             callbacks.onSuccess(JSON.parse(responseObject));
           },

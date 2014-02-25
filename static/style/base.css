@@ -4,12 +4,16 @@ html {
 }
 
 body {
-  background: #fff;
+  background: #000;
   font-family: "Helvetica", sans-serif;
   height: 100%;
   margin: 0;
   padding: 0;
   color: #333;
+}
+
+#app {
+    background-color: #fff;
 }
 
 /* List widgets */
