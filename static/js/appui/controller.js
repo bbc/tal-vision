@@ -39,9 +39,16 @@ require.def('lancaster-vision/appui/controller',
 
         // Launch the components
         menu.getChildWidgets().forEach(function(widget){
-          widget.addEventListener('select', function(){
+          widget.addEventListener('select', function() {
             skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/' + widget.id);
           });
+        });
+
+        // Debug reload button
+        var reloadButton = createLabelledButton('Reload', 'reload')
+        menu.appendChildWidget(reloadButton);
+        reloadButton.addEventListener('select', function() {
+          location.reload();
         });
 
         // Ordering Elements

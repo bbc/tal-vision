@@ -76,6 +76,7 @@ require.def('lancaster-vision/appui/components/video',
       queueVideo: function(id)
       {
         console.log('queueVideo');
+        this._videoPlayer.webkitMemoryLeakFix();
         this._videoPlayer.setSources([
           new MediaSource("http://148.88.67.137/"+id+".mp4", "video/mp4")
         ]);
