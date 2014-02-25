@@ -27,6 +27,12 @@ app.configure(function(){
   require('./src/templates/helpers')(hbs);
 });
 
+// Simple request logger
+app.use(function(req, res, next){
+  console.log('%s %s', req.method, req.url);
+  next();
+});
+
 app.use('/components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/static'));
 
@@ -36,6 +42,7 @@ app.configure(require('./src/helpers/lancasterAPI')(app));
 
 // Routing
 app.get('/', require('./src/routes/home'));
+app.get('/iplayer', require('./src/routes/home'));
 app.get('/auth/:auth_code?', require('./src/routes/auth'));
 
 app.listen(process.env.PORT || process.env.npm_package_config_port);
