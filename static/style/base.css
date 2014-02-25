@@ -200,6 +200,11 @@ body {
   display: inline-block;
 }
 
+/* Search Form */
+#search-form .keyboard {
+  text-align: center;
+}
+
 /* InputText */
 .input-text {
   border: 2px solid #ddd;
