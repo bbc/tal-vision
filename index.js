@@ -4,6 +4,7 @@ var express = require('express');
 var redisStore = require('connect-redis')(express);
 var hbs = require('express-hbs');
 var app = express();
+var tal = require('tal');
 
 app.configure(function(){
   app.engine('hbs', hbs.express3({
@@ -37,7 +38,7 @@ app.use('/components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/static'));
 
 // App Specific Middlewares
-app.use(require('./src/helpers/tal')(app));
+app.use(tal.middleware());
 app.configure(require('./src/helpers/lancasterAPI')(app));
 
 // Routing

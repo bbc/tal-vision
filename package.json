@@ -29,8 +29,8 @@
   "dependencies": {
     "express": "~3.4.0",
     "express-hbs": "~0.3.0",
-    "tal": "git+https://github.com/oncletom/node-tal.git#master",
-    "tal-config": "git+https://github.com/oncletom/tal-config.git#master",
+    "tal": "~0.2.0",
+    "tal-config": "~0.1.0",
     "connect-redis": "^1.4.7"
   },
   "devDependencies": {
