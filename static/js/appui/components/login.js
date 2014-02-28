@@ -7,7 +7,7 @@ require.def('lancaster-vision/appui/components/login',
     "antie/widgets/verticallist",
     "antie/widgets/componentcontainer",
     "lancaster-vision/lib/authenticator",
-    "lancaster-vision/appui/widgets/inputtext"
+    "bbcrd/widgets/input-text"
 
   ],
   function(Component, Button, Keyboard, Label, List, Container, Authenticator, InputText) {
