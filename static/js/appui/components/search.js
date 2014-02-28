@@ -6,7 +6,7 @@ require.def('lancaster-vision/appui/components/search',
     "antie/widgets/label",
     "antie/widgets/verticallist",
     "antie/widgets/container",
-    "lancaster-vision/appui/widgets/inputtext"
+    "bbcrd/widgets/input-text"
   ],
   function(Component, Button, Keyboard, Label, List, Container, InputText) {
 
