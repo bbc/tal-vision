@@ -16,7 +16,17 @@ require.def('lancaster-vision/appui/datasources/trendingfeed',
         // Stub API URL: /api_stubs/trending.json
         device.loadURL("http://10.42.32.199:2000/trending", {
           onLoad: function(responseObject) {
-            callbacks.onSuccess(JSON.parse(responseObject));
+
+            var all_programmes = JSON.parse(responseObject);
+            var vod_programmes = Array();
+
+            all_programmes.forEach(function(programme) {
+                if(programme.live == "0") {
+                  vod_programmes.push(programme)
+                }
+            });
+
+            callbacks.onSuccess(vod_programmes);
           },
           onError: function(response) {
             console.log(response);
