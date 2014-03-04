@@ -26,7 +26,14 @@
   {{!-- Application is loading the TAL Application... --}}
 </div>
 
-<div id="app" class="display-none">{{{ body }}}</div>
+<div id="app" class="display-none">
+  <div id="header">
+    <img src="/img/vision_logo.png" id="logo">
+  </div>
+  <div id="main">
+    {{{ body }}}
+  </div>
+</div>
 
 <script>
   require.onError = function(e){
@@ -45,11 +52,10 @@
 
       require.ready(function() {
         function onReady() {
-          // var staticLoadingScreen = document.getElementById('static-loading-screen');
-          // staticLoadingScreen.parentNode.removeChild(staticLoadingScreen);
+          document.getElementById('app').classList.remove("display-none");
         }
 
-        var app = new SampleApp(document.getElementById('app'), 'style/', 'img/', onReady);
+        var app = new SampleApp(document.getElementById('main'), 'style/', 'img/', onReady);
       });
 
     }

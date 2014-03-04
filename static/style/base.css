@@ -1,3 +1,9 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  line-height: 1em;
+}
+
 /* Document */
 html {
   height: 100%;
@@ -6,14 +12,13 @@ html {
 body {
   background: #1d1d1d;
   font-family: "Helvetica", sans-serif;
+  font-size: 16px;
   height: 100%;
-  margin: 0;
-  padding: 0;
   color: #333;
 }
 
 #app {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 /* List widgets */
@@ -40,7 +45,6 @@ body {
   display: block;
 }
 
-
 /* Horizontal carousel widgets */
 /* the mask is the top level of the carousel and defines where it is displayed and how much is visible */
 .horizontallistmask {
@@ -56,7 +60,6 @@ body {
 .horizontalcarousel {
   width: 99999px; /* needs to be big enough so carousel plus clones do not flow onto more then one line */
 }
-
 
 /* DEVICE SPECIFIC DEFAULTS */
 
@@ -160,8 +163,6 @@ body {
   height: 100%;
 }
 
-
-
 /* sign-in form */
 #signin-form {
   max-width: 600px;
@@ -176,27 +177,28 @@ body {
 }
 
   #app-navigation .listitem.button {
-    margin-right: 2px;
+    margin-right: 8px;
+    padding: 10px;
   }
 
-/* Trending carousel */
-#trending_carousel_component .carouselmask {
+/* Carousel styles */
+.carouselmask  {
   overflow: hidden;
   white-space: nowrap;
 }
 
-#trending_carousel_component .carouselwidgetstrip {
+.carouselwidgetstrip {
   position: relative;
 }
 
-#trending_carousel_component .carouselItem {
+.carouselItem {
   display: inline-block;
-  margin: 0 5px;
+  margin: 0 8px;
 }
 
-#trending_carousel_component .carouselItem .label {
-  margin: 15px 0 5px;
-  display: inline-block;
+.carouselItem .label {
+  margin-top: 8px;
+  display: block;
 }
 
 /* Search Form */
@@ -212,4 +214,22 @@ body {
 }
 .input-text.placeholder-active {
   color: #999;
+}
+
+.carousel_heading {
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  padding: 20px 0;
+  display: block;
+}
+
+.carousel_heading.first {
+  padding-top: 10px;
+}
+
+#player {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
 }

@@ -12,15 +12,16 @@ require.def('lancaster-vision/appui/components/video',
 
     return Component.extend({
       init: function (test) {
-        var app, self, label, button, image, device, playLabel, pauseLabel;
+        var app, self, label, button, image, playLabel, pauseLabel;
         self = this;
         app = this.getCurrentApplication();
-        device = app.getDevice();
+        this._device = app.getDevice();
 
         // It is important to call the constructor of the superclass
         this._super("home");
 
         this._controls = new HorizontalList('gui');
+        this._videoPlayer = this._device.createPlayer("player", "video");
 
         playLabel = new Label("Play");
         this._play = new Button();
@@ -40,18 +41,6 @@ require.def('lancaster-vision/appui/components/video',
 
         this._controls.appendChildWidget(this._pause);
 
-        this._videoPlayer = device.createPlayer("player", "video");
-
-
-        //  device.loadURL("http://localhost:3000/api_stubs/viewing_history.json", {
-        //   onLoad: function(responseObject) {
-        //     var data = JSON.parse(responseObject);
-        //     queueVideo(data[0].programme_id);
-        //   },
-        //   onError: function(response) {
-        //   }
-        // });
-
         this.addEventListener("beforerender", function (ev) {
           self._onBeforeRender(ev);
         });
@@ -67,20 +56,17 @@ require.def('lancaster-vision/appui/components/video',
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function (e) {
-        console.log('_onBeforeRender = '+e.args.programme_id)
         this.appendChildWidget(this._controls);
         this.appendChildWidget(this._videoPlayer);
         this.queueVideo(e.args.programme_id);
       },
 
-      queueVideo: function(id)
-      {
-        console.log('queueVideo');
-        this._videoPlayer.webkitMemoryLeakFix();
+      queueVideo: function(id) {
         this._videoPlayer.setSources([
-          new MediaSource("http://148.88.67.137/"+id+".mp4", "video/mp4")
+          new MediaSource("http://148.88.67.137/" + id + ".mp4", "video/mp4")
         ]);
         this._videoPlayer.load();
+        this._videoPlayer.play();
       }
     });
   }
