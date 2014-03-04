@@ -7,6 +7,24 @@
   margin: -360px auto 0 auto;
 }
 
+/* Header including logo */
+#header {
+  height: 75px;
+}
+
+/* #app height minus #header height (75px) */
+#main {
+  height: 645px;
+}
+
+#logo {
+  height: 59px;
+  width: 192px;
+  margin-top: 8px;
+  left: 544px;
+  position: absolute;
+}
+
 .keyboard .spacer,
 .keyboardButton {
   display: inline-block;

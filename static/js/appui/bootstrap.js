@@ -2,9 +2,10 @@ require.def('lancaster-vision/appui/bootstrap',
   [
     'antie/application',
     'antie/widgets/container',
-    'lancaster-vision/lib/authenticator'
+    'lancaster-vision/lib/authenticator',
+    'antie/widgets/verticallist'
   ],
-  function(Application, Container, Authenticator) {
+  function(Application, Container, Authenticator, VerticalList) {
 
     return Application.extend({
       init: function(appDiv, styleDir, imgDir, callback) {
@@ -16,10 +17,15 @@ require.def('lancaster-vision/appui/bootstrap',
         // Sets the root widget of the application to be
         // an empty container
         self._setRootContainer = function() {
-          var container = new Container();
-          container.outputElement = appDiv;
-          self.setRootWidget(container);
+          var vertical_layout = new VerticalList();
+          vertical_layout.outputElement = appDiv;
+
+          var header_container = new Container();
+          vertical_layout.appendChildWidget(header_container);
+
+          self.setRootWidget(vertical_layout);
         };
+
       },
 
       run: function() {
