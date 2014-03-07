@@ -11,11 +11,18 @@ require.def('lancaster-vision/appui/formatters/trendingformatter',
         var button, item;
         item = iterator.next();
 
-        item.image_url = "http://148.88.32.64/cache/320x180-2/programmes/" + item.image;
+        var width = 302;
+        var height = 165;
+
+        item.image_url = "http://148.88.32.64/cache/" + width + "x" + height + "-2/programmes/" + item.image;
 
         button = new Button("trending_" + item.programme_id);
-        button.appendChildWidget(new Image("trending_img_" + item.programme_id, item.image_url, { width : 320, height: 180}));
+        button.appendChildWidget(new Image("trending_img_" + item.programme_id, item.image_url, { width : width, height: height}));
         button.appendChildWidget(new Label(item.programme_name));
+        
+        var synopsis = new Label(item.synopsis);
+        synopsis.addClass("synopsis");
+        button.appendChildWidget(synopsis);
         button.setDataItem(item);
 
         return button;
