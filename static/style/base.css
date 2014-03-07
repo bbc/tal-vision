@@ -28,6 +28,11 @@ body {
   background-color: #fff;
 }
 
+#app-navigation .buttonBlurred {
+  background-color: transparent;
+  color: white;
+}
+
 /* List widgets */
 .horizontallist, .verticallist {
   position: relative;
@@ -177,7 +182,7 @@ body {
 }
 
 #app-navigation {
-  bottom: 0;
+  bottom: 10px;
   position: absolute;
   text-align: center;
   width: 100%;
