@@ -25,6 +25,13 @@
   position: absolute;
 }
 
+#gui {
+  position: absolute;
+  top: 500px;
+  left: 340px;
+  text-align: center;
+}
+
 .keyboard .spacer,
 .keyboardButton {
   display: inline-block;
@@ -41,4 +48,34 @@
 
 .keyboard {
   width: 100%;
+}
+
+/* Player scrub bar */
+#scrub {
+  clear: both;
+  width: 640px;
+  margin-bottom: 20px;
+}
+
+#pausePlay {
+  margin-right: 20px;
+}
+
+.horizontalslider {
+  position: relative;
+  float: left;
+  height: 20px;
+  padding: 0;
+}
+
+.horizontalsliderhandle {
+  height: 20px;
+  width: 20px;
+  margin-left: -10px;
+  position: absolute;
+  background-color: white;
+}
+
+#scrub.focus .horizontalsliderhandle {
+  /*background-color: black;*/
 }

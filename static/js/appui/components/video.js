@@ -6,9 +6,11 @@ require.def('lancaster-vision/appui/components/video',
     "antie/widgets/label",
     "antie/widgets/image",
     "antie/mediasource",
-    "antie/widgets/horizontallist"
+    "antie/widgets/horizontallist",
+    "antie/widgets/verticallist",
+    "antie/widgets/scrubbar"
   ],
-  function(Container, Component, Button, Label, Image, MediaSource, HorizontalList) {
+  function(Container, Component, Button, Label, Image, MediaSource, HorizontalList, VerticalList, ScrubBar) {
 
     return Component.extend({
       init: function (test) {
@@ -20,26 +22,50 @@ require.def('lancaster-vision/appui/components/video',
         // It is important to call the constructor of the superclass
         this._super("home");
 
-        this._controls = new HorizontalList('gui');
         this._videoPlayer = this._device.createPlayer("player", "video");
 
-        playLabel = new Label("Play");
-        this._play = new Button();
-        this._play.appendChildWidget(playLabel);
-        this._play.addEventListener('select', function(e){
-          self._videoPlayer.play();
+        // Scrub bar
+        this._scrub = new ScrubBar('scrub', 0, 0.01, 0.1, 1);
+        this._outer_list = new VerticalList('gui');
+        this._outer_list.appendChildWidget(this._scrub);
+        
+        this._scrub.addEventListener("sliderchangeend", function () {
+            var time = self._videoPlayer.getDuration() * self._scrub.getValue();
+            self._videoPlayer.setCurrentTime(time)
+            self._videoPlayer.play();
         });
 
-        this._controls.appendChildWidget(this._play);
+        this._controls = new HorizontalList();
+        this._outer_list.appendChildWidget(this._controls);
 
-        pauseLabel = new Label("Pause");
-        this._pause = new Button();
-        this._pause.appendChildWidget(pauseLabel);
-        this._pause.addEventListener('select', function(e){
-          self._videoPlayer.pause();
+        // Pause/play button
+        this._playPause = new Button("pausePlay");
+        this._playPauseLabel = new Label("Pause");
+        this._playPause.appendChildWidget(this._playPauseLabel);
+
+        this._playPauseState = "pause";
+
+        this._playPause.addEventListener('select', function(e) {
+          if(self._playPauseState == "pause") {
+            self._videoPlayer.pause();  
+            self._playPauseState = "play";   
+            self._playPauseLabel.setText("Play");       
+          } else if(self._playPauseState == "play") {
+            self._videoPlayer.play();  
+            self._playPauseState = "pause";   
+            self._playPauseLabel.setText("Pause");       
+          }          
         });
 
-        this._controls.appendChildWidget(this._pause);
+        this._controls.appendChildWidget(this._playPause);
+
+        var back = new Button('back');
+        back.appendChildWidget(new Label('Back'));
+        back.addEventListener('select', function(evt) {
+            self.parentWidget.back();
+        });
+
+        this._controls.appendChildWidget(back);
 
         this.addEventListener("beforerender", function (ev) {
           self._onBeforeRender(ev);
@@ -56,9 +82,9 @@ require.def('lancaster-vision/appui/components/video',
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function (e) {
-        this.appendChildWidget(this._controls);
-        this.appendChildWidget(this._videoPlayer);
         this.queueVideo(e.args.programme_id);
+        this.appendChildWidget(this._videoPlayer);
+        this.appendChildWidget(this._outer_list);
       },
 
       queueVideo: function(id) {
