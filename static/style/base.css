@@ -14,10 +14,17 @@ body {
   font-family: "Helvetica", sans-serif;
   font-size: 16px;
   height: 100%;
-  color: #333;
+  color: #fff;
 }
 
 #app {
+  background-color: #000;
+
+  /* Safari 5.1+, Chrome 10+ */
+  background: -webkit-radial-gradient(circle, #46A1FC, #012D59);
+}
+
+#header {
   background-color: #fff;
 }
 
@@ -197,8 +204,17 @@ body {
 }
 
 .carouselItem .label {
-  margin-top: 8px;
+  line-height: 40px;
   display: block;
+}
+
+.carouselItem.button {
+  padding: 0;
+}
+
+.carouselItem.buttonBlurred {
+  background-color: transparent;
+  color: #fff;
 }
 
 /* Search Form */
@@ -220,13 +236,13 @@ body {
   font-size: 20px;
   text-align: center;
   font-weight: bold;
-  padding: 20px 0;
+  padding: 30px 0 20px;
   display: block;
 }
-
+/*
 .carousel_heading.first {
   padding-top: 10px;
-}
+}*/
 
 #player {
   width: 100%;
