@@ -1,7 +1,8 @@
 'use strict';
 
 var express = require('express');
-var redisStore = require('connect-redis')(express);
+var session = require('express-session');
+var redisStore = require('connect-redis')(session);
 var hbs = require('express-hbs');
 var app = express();
 var tal = require('tal');
