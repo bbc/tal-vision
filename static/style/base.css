@@ -24,6 +24,10 @@ body {
   background: -webkit-radial-gradient(circle, #46A1FC, #012D59);
 }
 
+#app.playback {
+  background: #000;
+}
+
 #header {
   background-color: #fff;
 }

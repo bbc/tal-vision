@@ -17,6 +17,7 @@ require.def('lancaster-vision/appui/components/video',
         var app, self, label, button, image, playLabel, pauseLabel;
         self = this;
         app = this.getCurrentApplication();
+        this._app = app;
         this._device = app.getDevice();
 
         // It is important to call the constructor of the superclass
@@ -54,7 +55,7 @@ require.def('lancaster-vision/appui/components/video',
             self._videoPlayer.play();  
             self._playPauseState = "pause";   
             self._playPauseLabel.setText("Pause");       
-          }          
+          }
         });
 
         this._controls.appendChildWidget(this._playPause);
@@ -71,6 +72,17 @@ require.def('lancaster-vision/appui/components/video',
           self._onBeforeRender(ev);
         });
 
+        this.addEventListener("beforehide", function(ev) {
+          self.showHeaderFooter();
+          self.showControls();
+          self.clearControlHideTimeout();
+        });
+
+        this.addEventListener("keydown", function(ev) {
+          self.showControls();
+          self.setControlHideTimeout();
+        });
+
         // calls Application.ready() the first time the component is shown
         // the callback removes itself once it's fired to avoid multiple calls.
         this.addEventListener("aftershow", function appReady() {
@@ -79,12 +91,53 @@ require.def('lancaster-vision/appui/components/video',
         });
       },
 
+      hideHeaderFooter: function() {
+        $("#header").addClass("offscreen");
+        $("#app").addClass("playback");
+      },
+
+      showHeaderFooter: function() {
+        $("#header").removeClass("offscreen");
+        $("#app").removeClass("playback");
+      },
+
+      hideControls: function() {
+        $("#gui").addClass("offscreen");
+        $("#app-navigation").addClass("offscreen");
+      },
+
+      showControls: function() {
+        $("#gui").removeClass("offscreen");
+        $("#app-navigation").removeClass("offscreen");
+      },
+
+      setControlHideTimeout: function() {
+        var self = this;
+
+        self.clearControlHideTimeout();
+
+        self._timeout = window.setTimeout(function () {
+          self.hideControls();
+        }, 5000);
+      },
+
+      clearControlHideTimeout: function() {
+        var self = this;
+
+        clearTimeout(self.hideTimeout);
+      },
+
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function (e) {
+        var self = this;
+
         this.queueVideo(e.args.programme_id);
         this.appendChildWidget(this._videoPlayer);
         this.appendChildWidget(this._outer_list);
+
+        this.hideHeaderFooter();
+        self.setControlHideTimeout();
       },
 
       queueVideo: function(id) {
