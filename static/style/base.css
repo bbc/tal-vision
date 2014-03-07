@@ -11,7 +11,7 @@ html {
 
 body {
   background: #1d1d1d;
-  font-family: "Helvetica", sans-serif;
+  font-family: Arial, "Helvetica", sans-serif;
   font-size: 16px;
   height: 100%;
   color: #fff;
@@ -182,7 +182,7 @@ body {
 }
 
 #app-navigation {
-  bottom: 10px;
+  bottom: 15px;
   position: absolute;
   text-align: center;
   width: 100%;
@@ -209,12 +209,26 @@ body {
 }
 
 .carouselItem .label {
-  line-height: 40px;
+  margin: 10px 0;
   display: block;
+  line-height: 1.2em;
+}
+
+.carouselItem .label.synopsis {
+  padding: 0 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 80%;
+  color: #eee;
+}
+
+.carouselItem.focus .label.synopsis {
+  color: #333;
 }
 
 .carouselItem.button {
   padding: 0;
+  width: 302px;
 }
 
 .carouselItem.buttonBlurred {
@@ -238,15 +252,15 @@ body {
 }
 
 .carousel_heading {
-  font-size: 20px;
+  font-size: 19px;
   text-align: center;
   font-weight: bold;
-  padding: 30px 0 20px;
+  padding: 24px 0 18px;
   display: block;
 }
-/*
-.carousel_heading.first {
-  padding-top: 10px;
+
+/*.carousel_heading.first {
+  padding-top: 15px;
 }*/
 
 #player {
