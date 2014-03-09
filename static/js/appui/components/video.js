@@ -14,32 +14,38 @@ require.def('lancaster-vision/appui/components/video',
 
     return Component.extend({
       init: function (test) {
-        var app, self, label, button, image, playLabel, pauseLabel;
+        var self, label, button, image, playLabel, pauseLabel;
         self = this;
-        app = this.getCurrentApplication();
-        this._app = app;
-        this._device = app.getDevice();
 
         // It is important to call the constructor of the superclass
         this._super("home");
 
+        this._app = this.getCurrentApplication();;
+        this._device = this._app.getDevice();
         this._videoPlayer = this._device.createPlayer("player", "video");
 
+        // GUI vertical list
+        this._gui_list = new VerticalList('gui');
+
         // Scrub bar
-        this._scrub = new ScrubBar('scrub', 0, 0.01, 0.1, 1);
-        this._outer_list = new VerticalList('gui');
-        this._outer_list.appendChildWidget(this._scrub);
-        
+        this._scrub = new ScrubBar('scrub', 0, 0.01, 0.05, 1);        
         this._scrub.addEventListener("sliderchangeend", function () {
             var time = self._videoPlayer.getDuration() * self._scrub.getValue();
             self._videoPlayer.setCurrentTime(time)
             self._videoPlayer.play();
         });
+        this._scrub.addEventListener("sliderchange", function () {
+            self.showControls();
+            self.setControlsHideTimeout();
+        });
 
+        this._gui_list.appendChildWidget(this._scrub);
+
+        // Buttons below scrub bar: Play/Pause, Back
         this._controls = new HorizontalList();
-        this._outer_list.appendChildWidget(this._controls);
+        this._gui_list.appendChildWidget(this._controls);
 
-        // Pause/play button
+        // Pause/Play toggling button
         this._playPause = new Button("pausePlay");
         this._playPauseLabel = new Label("Pause");
         this._playPause.appendChildWidget(this._playPauseLabel);
@@ -60,6 +66,7 @@ require.def('lancaster-vision/appui/components/video',
 
         this._controls.appendChildWidget(this._playPause);
 
+        // Back button
         var back = new Button('back');
         back.appendChildWidget(new Label('Back'));
         back.addEventListener('select', function(evt) {
@@ -73,14 +80,31 @@ require.def('lancaster-vision/appui/components/video',
         });
 
         this.addEventListener("beforehide", function(ev) {
-          self.showHeaderFooter();
+          self.clearControlsHideTimeout();
+          self.showHeader();
           self.showControls();
-          self.clearControlHideTimeout();
         });
 
-        this.addEventListener("keydown", function(ev) {
+        this.addEventListener("focus", function(ev) {
           self.showControls();
-          self.setControlHideTimeout();
+          self.setControlsHideTimeout();
+        });
+
+        self._app.getRootWidget().getChildWidget("maincontainer").getChildWidget("maincontroller").getMenu().addEventListener("focus", function(ev) {
+          self.showControls();
+          self.setControlsHideTimeout();
+        });
+
+        this._videoPlayer.addEventListener("progress", function () {
+          var player = self._videoPlayer;
+
+          var buffer = player.getBuffered();
+          var current_pos = player.getCurrentTime();
+
+          self._scrub.setBufferedRange({
+            start: 0,
+            end: buffer.end(buffer.length - 1) / player.getDuration()
+          });
         });
 
         // calls Application.ready() the first time the component is shown
@@ -91,12 +115,12 @@ require.def('lancaster-vision/appui/components/video',
         });
       },
 
-      hideHeaderFooter: function() {
+      hideHeader: function() {
         $("#header").addClass("offscreen");
         $("#app").addClass("playback");
       },
 
-      showHeaderFooter: function() {
+      showHeader: function() {
         $("#header").removeClass("offscreen");
         $("#app").removeClass("playback");
       },
@@ -111,20 +135,19 @@ require.def('lancaster-vision/appui/components/video',
         $("#app-navigation").removeClass("offscreen");
       },
 
-      setControlHideTimeout: function() {
+      setControlsHideTimeout: function() {
         var self = this;
 
-        self.clearControlHideTimeout();
+        self.clearControlsHideTimeout();
 
         self._timeout = window.setTimeout(function () {
           self.hideControls();
-        }, 5000);
+        }, 4000);
       },
 
-      clearControlHideTimeout: function() {
+      clearControlsHideTimeout: function() {
         var self = this;
-
-        clearTimeout(self.hideTimeout);
+        clearTimeout(self._timeout);
       },
 
       // Appending widgets on beforerender ensures they're still displayed
@@ -132,12 +155,13 @@ require.def('lancaster-vision/appui/components/video',
       _onBeforeRender: function (e) {
         var self = this;
 
-        this.queueVideo(e.args.programme_id);
-        this.appendChildWidget(this._videoPlayer);
-        this.appendChildWidget(this._outer_list);
+        this.hideHeader();
 
-        this.hideHeaderFooter();
-        self.setControlHideTimeout();
+        this.appendChildWidget(this._videoPlayer);
+        this.appendChildWidget(this._gui_list);
+        this.queueVideo(e.args.programme_id);
+
+        self.setControlsHideTimeout();
       },
 
       queueVideo: function(id) {
