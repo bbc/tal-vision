@@ -32,6 +32,7 @@ require.def('lancaster-vision/appui/controller',
 
         // Horizontal Menu
         var menu = new HorizontalList('app-navigation');
+        this._menu = menu;
         menu.appendChildWidget(createLabelledButton('Home', 'home'));
         menu.appendChildWidget(createLabelledButton('Browse', 'browse', { disabled: true }));
         menu.appendChildWidget(createLabelledButton('History', 'history', { disabled: true }));
@@ -55,11 +56,18 @@ require.def('lancaster-vision/appui/controller',
         this._content_container = new ComponentContainer('content-container');
         this._content_container.pushComponent('lancaster-vision/appui/components/home');
 
+        // VOD playback request
         this._content_container.addEventListener('vod.show', function(e){
           var programme = e.args[0];
 
           skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/video', programme);
         });
+
+        // // Navigation bar hide
+        // this._content_container.addEventListener('nav.hide', function(e){
+        //   var programme = e.args[0];
+        //   skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/video', programme);
+        // });
 
         skeleton.appendChildWidget(this._content_container);
         skeleton.appendChildWidget(menu);
@@ -89,6 +97,10 @@ require.def('lancaster-vision/appui/controller',
 
       getContainer: function() {
         return this._skeleton.getChildWidget('content-container');
+      },
+
+      getMenu: function() {
+        return this._menu;
       }
     });
   }
