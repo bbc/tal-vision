@@ -35,7 +35,7 @@ require.def('lancaster-vision/appui/controller',
         this._menu = menu;
         menu.appendChildWidget(createLabelledButton('Home', 'home'));
         menu.appendChildWidget(createLabelledButton('Browse', 'browse', { disabled: true }));
-        menu.appendChildWidget(createLabelledButton('History', 'history', { disabled: true }));
+        // menu.appendChildWidget(createLabelledButton('History', 'history', { disabled: true }));
         menu.appendChildWidget(createLabelledButton('Search', 'search'));
 
         // Launch the components
