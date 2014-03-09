@@ -313,3 +313,7 @@ body {
 #history .prog_details .button.resume_button {
   width: 150px;
 }
+
+#history_carousel_CarouselMask {
+  height: 570px;
+}
