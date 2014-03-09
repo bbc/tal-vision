@@ -263,12 +263,53 @@ body {
   display: block;
 }
 
-/*.carousel_heading.first {
-  padding-top: 15px;
-}*/
-
 #player {
   width: 100%;
   height: 100%;
   background-color: #000;
+}
+
+/* History carousel styles */
+#history .carouselItem {
+  display: block;
+  margin: 20px;
+  height: 165px;
+}
+
+/*#history .carouselItem.focus {
+  background-color: #FFD700;
+}*/
+
+#history .prog_details {
+  padding: 0 20px;
+  position: absolute;
+}
+
+#history .prog_details .synopsis {
+  padding: 0;
+  height: 60px;
+  width: 910px;
+  white-space: initial;
+  line-height: 1.6em;
+}
+
+#history .carouselItem.focus .label.synopsis {
+  color: #FFF;
+}
+
+#history .carouselItem.focus .label.prog_name {
+  color: #FFD700;
+}
+
+#history .prog_details .button {
+  display: inline-block;
+  margin-right: 20px
+}
+
+#history .prog_details .button.play_button {
+  width: 175px;
+}
+
+#history .prog_details .button.resume_button {
+  width: 150px;
 }
