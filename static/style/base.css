@@ -391,4 +391,5 @@ body {
   z-index: 100;
   background-color: yellow;
   color: black;
+  display: none;
 }
