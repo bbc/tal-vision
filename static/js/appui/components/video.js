@@ -236,7 +236,7 @@ require.def('lancaster-vision/appui/components/video',
           data: {
             api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
             heartbeat_id: this._heartbeat_id,
-            user_id: 202,
+            user_id: window.user_id,
             programme_id: programme.programme_id,
             file_id: file_url
           }
@@ -251,7 +251,7 @@ require.def('lancaster-vision/appui/components/video',
           data: {
             api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
             heartbeat_id: this._heartbeat_id,
-            user_id: 202,
+            user_id: window.user_id,
             start: start,
             end: end
           }
