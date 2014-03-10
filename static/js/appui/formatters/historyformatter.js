@@ -15,8 +15,8 @@ require.def('lancaster-vision/appui/formatters/historyformatter',
 
         var list = new VerticalList("history_" + item.programme_id);
 
-        var width = 350;
-        var height = 205;
+        var width = 310;
+        var height = 182;
         item.image_url = "http://148.88.32.64/cache/" + width + "x" + height + "-2/programmes/" + item.image;
 
         list.appendChildWidget(new Image("trending_img_" + item.programme_id, item.image_url, { width : width, height: height}));
@@ -34,13 +34,24 @@ require.def('lancaster-vision/appui/formatters/historyformatter',
 
         var buttons_list = new VerticalList("buttons_list");
 
+        // Play button
         this._play = new Button("play_button");
         this._play.appendChildWidget(new Label("Play From Begining"));
         this._play.addClass("play_button");
         buttons_list.appendChildWidget(this._play);
 
+        // Resume button
         this._resume = new Button("resume_button");
-        this._resume.appendChildWidget(new Label("Resume"));
+
+        // Disable resume button if no resume data is stored
+        if(item.percentage_watched == 0) {
+          this._resume.setDisabled(true);
+          var resume_label = new Label("Can't resume, unknown last position");          
+        } else {
+          var resume_label = new Label("Resume (" + item.percentage_watched + "% watched)")
+        }
+
+        this._resume.appendChildWidget(resume_label);
         this._resume.addClass("resume_button");
         buttons_list.appendChildWidget(this._resume);
 
