@@ -112,6 +112,8 @@ require.def('lancaster-vision/appui/components/video',
 
           // Set scrubbar buffered media area
           var buffer = player.getBuffered();
+
+          if(buffer.length != 0)
           self._scrub.setBufferedRange({
             start: 0,
             end: buffer.end(buffer.length - 1) / player.getDuration()
