@@ -180,9 +180,23 @@ body {
 }
 
 /* sign-in form */
-#signin-form {
-  max-width: 600px;
-  margin: 0 auto;
+#outer_login_list {
+  max-width: 630px;
+  margin: 50px auto 0;
+  color: black;
+}
+
+#instructions, #signin-form {
+  background-color: white;
+  padding: 20px;  
+}
+
+#instructions {
+  margin-bottom: 20px;
+}
+
+#signin-form .listitem {
+  margin-top: 10px;
 }
 
 #app-navigation {
@@ -222,7 +236,7 @@ body {
   padding: 0 10px;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 80%;
+  font-size: 90%;
   color: #ddd;
 }
 
@@ -271,9 +285,11 @@ body {
 
 /* History carousel styles */
 #history .carouselItem {
-  display: block;
-  margin: 20px;
-  height: 165px;
+  display: inline-block;
+  padding: 20px 20px;
+  width: 350px;
+  margin: 0;
+  vertical-align: top;
 }
 
 /*#history .carouselItem.focus {
@@ -281,14 +297,11 @@ body {
 }*/
 
 #history .prog_details {
-  padding: 0 20px;
-  position: absolute;
+  height: 285px;
 }
 
 #history .prog_details .synopsis {
   padding: 0;
-  height: 60px;
-  width: 910px;
   white-space: initial;
   line-height: 1.6em;
 }
@@ -301,19 +314,41 @@ body {
   color: #FFD700;
 }
 
+#history .carouselItem .label.prog_name {
+  margin-top: 15px;
+}
+
 #history .prog_details .button {
-  display: inline-block;
-  margin-right: 20px
+  width: 334px;
+}
+
+#history .prog_details .button .label {
+  margin: 3px 0;
 }
 
 #history .prog_details .button.play_button {
-  width: 175px;
+  margin-bottom: 15px
 }
 
-#history .prog_details .button.resume_button {
-  width: 150px;
-}
+/*#history .prog_details .button.resume_button {
+
+}*/
 
 #history_carousel_CarouselMask {
-  height: 570px;
+  margin: 0 20px;
+}
+
+/*
+#history .carouselItem.focus .image {
+  padding-right: 15px;
+  background-color: #FFD700;
+}*/
+
+#history .carousel_heading {
+  padding-bottom: 0;
+}
+
+#history #buttons_list {
+  bottom: 0;
+  position: absolute;
 }

@@ -20,8 +20,16 @@ require.def('lancaster-vision/appui/components/login',
 
         this._super("login");
 
+        this._outer_list = new List("outer_login_list");
+
+        var instructions = new Container('instructions');
+        instructions.appendChildWidget(new Label("This is a trial project where you can access Vision via your PlayStation or Smart TV<br><br>Visit Vision on your computer and get your login code, you should only have to do this once."));
+        this._outer_list.appendChildWidget(instructions);
+
         this._form = new Container('signin-form');
-        this._form.appendChildWidget(new Label("Please authenticate to continue."));
+        this._outer_list.appendChildWidget(this._form);
+
+        this._form.appendChildWidget(new Label("Please enter your login code:"));
 
         var list = new List();
         var input = new InputText("********", { placeholder: true });
@@ -30,7 +38,7 @@ require.def('lancaster-vision/appui/components/login',
         //input.addClass('placeholder')
 
         var button = new Button('ok')
-        button.appendChildWidget(new Label("Verify"));
+        button.appendChildWidget(new Label("Sign In"));
         button.addClass('okButton');
         button.setDisabled(true);
 
@@ -79,7 +87,7 @@ require.def('lancaster-vision/appui/components/login',
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function () {
-        this.appendChildWidget(this._form);
+        this.appendChildWidget(this._outer_list);
       }
     });
   }

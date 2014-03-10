@@ -10,10 +10,9 @@ require.def('lancaster-vision/appui/components/history',
     "antie/widgets/carousel/binder",
     "antie/widgets/carousel/keyhandlers/alignfirsthandler",
     "lancaster-vision/lib/dataevent",
-    "antie/widgets/carousel/navigators/wrappingnavigator",
-    "antie/widgets/carousel/strips/wrappingstrip"
+    "antie/widgets/verticallist"
   ],
-  function (Application, Component, DataSource, Carousel, Label, HistoryFormatter, HistoryFeed, Binder, AlignFirstHandler, Event, WrappingNavigator, WrappingStrip) {
+  function (Application, Component, DataSource, Carousel, Label, HistoryFormatter, HistoryFeed, Binder, AlignFirstHandler, Event, VerticalList) {
 
     // All components extend Component
     return Component.extend({
@@ -25,8 +24,15 @@ require.def('lancaster-vision/appui/components/history',
         var historyFeed = new HistoryFeed(this);
         this._dataSource = new DataSource(this, historyFeed, "loadData");
 
+        this._list = new VerticalList();
+
+        var history_label = new Label("History");
+        history_label.addClass("carousel_heading");
+        this._list.appendChildWidget(history_label);
+
         // Create a new carousel and append it to the component
-        this._carousel = new Carousel("history_carousel", Carousel.orientations.VERTICAL);
+        this._carousel = new Carousel("history_carousel", Carousel.orientations.HORIZONTAL);
+        this._list.appendChildWidget(this._carousel);
 
         // Setup event listeners to set focus on first widget after data binding
         this._carousel.addEventListener("databound", function (evt) {
@@ -54,14 +60,20 @@ require.def('lancaster-vision/appui/components/history',
         children[0].focus();
 
         // Emit vod.show event when a programme is selected
-        this._carousel.getChildWidgets().forEach(function(widget) {
-          widget.addEventListener('select', function(e) {
-            try {
-              widget.bubbleEvent(new Event('vod.show', e.target.getDataItem()));
-            }
-            catch (e) {
-              console.log(e.message);
-            }
+        this._carousel.getChildWidgets().forEach(function(prog_widget) {
+          var buttons_list = prog_widget.getChildWidget("prog_details").getChildWidget("buttons_list");
+
+          var play = buttons_list.getChildWidget("play_button");
+          var resume = buttons_list.getChildWidget("resume_button");
+
+          play.addEventListener('select', function(e) {
+            prog_widget.bubbleEvent(new Event('vod.show', prog_widget.getDataItem()));
+          });
+
+          resume.addEventListener('select', function(e) {
+            var programme = prog_widget.getDataItem();
+            programme.tal_resume_from = programme.last_known_position;
+            prog_widget.bubbleEvent(new Event('vod.show', programme));
           });
         });
       },
@@ -69,7 +81,7 @@ require.def('lancaster-vision/appui/components/history',
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function () {
-        this.appendChildWidget(this._carousel);
+        this.appendChildWidget(this._list);
       }
     });
   }

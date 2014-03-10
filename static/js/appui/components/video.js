@@ -121,7 +121,9 @@ require.def('lancaster-vision/appui/components/video',
 
           // Only true once per second
           if(currentSeconds != this._last_segment_second) {
-            if(currentSeconds % 5 == 0) {
+            if(currentSeconds % 5 == 0 && (currentSeconds != null)) {
+
+              console.log(currentSeconds);
 
               if(currentSeconds < this._last_segment_second || currentSeconds > this._last_segment_second + 5) {
                 self._last_segment_start = currentSeconds;
@@ -142,7 +144,7 @@ require.def('lancaster-vision/appui/components/video',
         // the callback removes itself once it's fired to avoid multiple calls.
         this.addEventListener("aftershow", function appReady() {
           document.getElementById("player").addEventListener("loadedmetadata", function() {
-            console.log("Setting start time to %d", self._start_time);
+            console.log("Moving player time to to %d", self._start_time);
             self._videoPlayer.setCurrentTime(self._start_time);
           });
 
@@ -197,17 +199,20 @@ require.def('lancaster-vision/appui/components/video',
 
         this.logPlayerInstance(e.args);
       
-        this.queueVideo(e.args.programme_id);
+        this.queueVideo(e.args);
       },
 
-      queueVideo: function(id, startTime) {
-        this._start_time = startTime || 60;
+      queueVideo: function(programme) {
+        this._start_time = programme.tal_resume_from || 0;
+
+        console.log("start_time = " + this._start_time);
+        console.log("programme.tal_resume_from = " + programme.tal_resume_from);
 
         this._last_segment_start = this._start_time;
         this._last_segment_second = this._start_time;
 
         this._videoPlayer.setSources([
-          new MediaSource("http://148.88.32.70/" + id + ".mp4", "video/mp4")
+          new MediaSource("http://148.88.32.70/" + programme.programme_id + ".mp4", "video/mp4")
         ]);
         this._videoPlayer.load();
         this._videoPlayer.play();
