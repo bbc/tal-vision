@@ -302,10 +302,11 @@ body {
 #history .prog_details .synopsis {
   padding: 0;
   white-space: initial;
-  line-height: 1.5em;
+  line-height: 1.6em;
+  font-size: 95%;
 }
 
-#history .carouselItem.focus .label.synopsis {
+#history .carouselItem .label.synopsis {
   color: #FFF;
 }
 
@@ -362,7 +363,6 @@ body {
   background-color: #FFF;
   width: 25px;
   height: 4px;
-  top: -1px;
   position: absolute;
 }
 
