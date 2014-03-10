@@ -33,21 +33,29 @@ require.def('lancaster-vision/appui/bootstrap',
 
         this._setRootContainer();
 
+        self.nativeCommand("dismissSplash");
+
         Authenticator(this.getDevice()).isAuthenticated(
           function success(response){
+
+            try {
+              window.user_id = parseInt(JSON.parse(response).user_id)
+            } catch (err) {
+              console.log("Parsing error with auth response: " + response);
+              self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/login");
+            }
+
             self.addComponentContainer("maincontainer", "lancaster-vision/appui/controller");
-            self.nativeCommand("dismissSplash");
           },
           function failure(response){
             self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/login");
-            self.nativeCommand("dismissSplash");
           }
         );
       },
 
       nativeCommand: function (command) {
           var hash = {
-              command: command
+            command: command
           };
           var json = JSON.stringify(hash);
           window.external && window.external.user && window.external.user(json);

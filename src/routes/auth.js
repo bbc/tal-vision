@@ -1,45 +1,54 @@
+var http = require('http');
+
 /*
  * Session authentication functions
  */
 
-var guestUser = {
-  id: null,
-  name: null,
-  username: null
-};
-
-var users = {
-  "1234": {
-    id: 2,
-    name: "Ross Wilson",
-    username: "wilsonr6"
-  }
-};
-
-function getUserModel(userCode) {
-  return users[userCode] || guestUser;
-}
-
 module.exports = function verifySession(req, res) {
-  // checking authentication
+
+  // Checking authentication
   if (req.params.auth_code === undefined) {
-    if (req.session.userCode && users[req.session.userCode]) {
-      res.json(200, getUserModel(req.session.userCode));
+    if (req.session.userCode) {
+      res.json(200, { user_id: req.session.userCode });
     }
     else {
-      res.json(401, {});
+      res.json(401, { user_id: null });
     }
   }
-  // requesting authentication
+  // Requesting authentication
   else {
-    var user = getUserModel(req.params.auth_code);
 
-    if (user.id){
-      req.session.userCode = req.params.auth_code;
-      res.json(200, user);
-    }
-    else {
-      res.json(401, {});
-    }
+    var options = {
+      host: 'vision.lancs.ac.uk',
+      port: 9110,
+      path: '/user/verify_external_pin?api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&pin=' + req.params.auth_code
+    };
+
+    var api_req = http.get(options, function(api_res) {
+    
+      if(api_res.statusCode == 500) {
+        console.log("Craig's API returned HTTP 500, probably because PIN code isn't valid")
+        res.json(401, { user_id: null });
+      }
+
+      api_res.setEncoding('utf8');
+      api_res.on('data', function (body) {
+        var json_body = JSON.parse(body);
+        console.log(json_body);
+
+        if(json_body.num_res > 0) {
+          var user_id = json_body.data[0].user_id;
+          req.session.userCode = user_id;
+          res.json(200, { user_id: user_id });
+        } else {
+          res.json(401, { user_id: null });
+        }
+
+      });
+
+    }).on('error', function(e) {
+      console.log('problem with request: ' + e.message);
+    });
+
   }
 };
