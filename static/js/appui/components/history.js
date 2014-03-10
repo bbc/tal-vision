@@ -80,7 +80,9 @@ require.def('lancaster-vision/appui/components/history',
           var resume = buttons_list.getChildWidget("resume_button");
 
           play.addEventListener('select', function(e) {
-            prog_widget.bubbleEvent(new Event('vod.show', prog_widget.getDataItem()));
+            var programme = prog_widget.getDataItem();
+            programme.tal_resume_from = null;
+            prog_widget.bubbleEvent(new Event('vod.show', programme));
           });
 
           resume.addEventListener('select', function(e) {
