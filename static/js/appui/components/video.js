@@ -123,13 +123,11 @@ require.def('lancaster-vision/appui/components/video',
           if(currentSeconds != this._last_segment_second) {
             if(currentSeconds % 5 == 0 && (currentSeconds != null)) {
 
-              console.log(currentSeconds);
-
               if(currentSeconds < this._last_segment_second || currentSeconds > this._last_segment_second + 5) {
                 self._last_segment_start = currentSeconds;
-                console.log("Logging skipped segment %d:%d", self._last_segment_start, currentSeconds);
+                console.log("Logging skipped segment " + self._last_segment_start + ":" + currentSeconds);
               } else {
-                console.log("Logging normal segment %d:%d", self._last_segment_start, currentSeconds);
+                console.log("Logging normal segment " + self._last_segment_start + ":" + currentSeconds);
               }
 
               self.logPlayerSegment(self._last_segment_start, currentSeconds);
@@ -142,9 +140,9 @@ require.def('lancaster-vision/appui/components/video',
 
         // calls Application.ready() the first time the component is shown
         // the callback removes itself once it's fired to avoid multiple calls.
-        this.addEventListener("aftershow", function appReady() {
+        this.addEventListener("aftershow", function(ev) {
           document.getElementById("player").addEventListener("loadedmetadata", function() {
-            console.log("Moving player time to to %d", self._start_time);
+            console.log("Moving player time to to: " + self._start_time);
             self._videoPlayer.setCurrentTime(self._start_time);
           });
 
@@ -210,6 +208,9 @@ require.def('lancaster-vision/appui/components/video',
 
         this._last_segment_start = this._start_time;
         this._last_segment_second = this._start_time;
+
+        console.log("_last_segment_start = " + this._last_segment_start);
+        console.log("_last_segment_second = " + this._last_segment_second);
 
         this._videoPlayer.setSources([
           new MediaSource("http://148.88.32.70/" + programme.programme_id + ".mp4", "video/mp4")
