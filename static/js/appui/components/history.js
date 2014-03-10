@@ -10,9 +10,10 @@ require.def('lancaster-vision/appui/components/history',
     "antie/widgets/carousel/binder",
     "antie/widgets/carousel/keyhandlers/alignfirsthandler",
     "lancaster-vision/lib/dataevent",
-    "antie/widgets/verticallist"
+    "antie/widgets/verticallist",
+    "antie/widgets/horizontalprogress"
   ],
-  function (Application, Component, DataSource, Carousel, Label, HistoryFormatter, HistoryFeed, Binder, AlignFirstHandler, Event, VerticalList) {
+  function (Application, Component, DataSource, Carousel, Label, HistoryFormatter, HistoryFeed, Binder, AlignFirstHandler, Event, VerticalList, HorizontalProgress) {
 
     // All components extend Component
     return Component.extend({
@@ -30,9 +31,21 @@ require.def('lancaster-vision/appui/components/history',
         history_label.addClass("carousel_heading");
         this._list.appendChildWidget(history_label);
 
+        // Progress bar
+        this._progress = new HorizontalProgress("history_progress", true);
+        this._list.appendChildWidget(this._progress);
+
         // Create a new carousel and append it to the component
         this._carousel = new Carousel("history_carousel", Carousel.orientations.HORIZONTAL);
         this._list.appendChildWidget(this._carousel);
+
+        this._carousel.addEventListener("afteralign", function(ev) {
+          var index = ev.alignedIndex;
+          var total = self._carousel.items().length;
+          
+          self._progress.setValue(index/(total - 1));
+          self._progress.setText((index + 1) + " of " + total);
+        });
 
         // Setup event listeners to set focus on first widget after data binding
         this._carousel.addEventListener("databound", function (evt) {

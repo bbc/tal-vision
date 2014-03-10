@@ -286,7 +286,7 @@ body {
 #history .carouselItem {
   display: inline-block;
   padding: 20px 20px;
-  width: 350px;
+  width: 310px;
   margin: 0;
   vertical-align: top;
 }
@@ -318,7 +318,7 @@ body {
 }
 
 #history .prog_details .button {
-  width: 334px;
+  width: 294px;
 }
 
 #history .prog_details .button .label {
@@ -350,4 +350,32 @@ body {
 #history #buttons_list {
   bottom: 0;
   position: absolute;
+}
+
+#history_progress {
+  height: 4px;
+  margin-top: 20px;
+}
+
+#history_progress_inner {
+  background-color: #FFF;
+  width: 10px;
+  height: 4px;
+  top: -1px;
+  position: absolute;
+}
+
+#history_progress_left {
+  width: 600px;   
+  margin: 0 auto;
+  height: 4px;
+  overflow: visible;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+#history_progress_label {
+  position: absolute;
+  top: -10px;
+  right: 275px;
 }
