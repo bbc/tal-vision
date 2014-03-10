@@ -21,10 +21,6 @@ require.def('lancaster-vision/appui/components/history',
         var self = this;
         this._super("history");
 
-        // Get the user's history
-        var historyFeed = new HistoryFeed(this);
-        this._dataSource = new DataSource(this, historyFeed, "loadData");
-
         this._list = new VerticalList();
 
         var history_label = new Label("History");
@@ -53,9 +49,7 @@ require.def('lancaster-vision/appui/components/history',
         });
 
         // Bind data to the carousel
-        var historyFormatter = new HistoryFormatter();
-        var binder = new Binder(historyFormatter, this._dataSource);
-        binder.appendAllTo(this._carousel);
+        this.load_data();
 
         // Attach keyhandlers to support up down keyboard navigation
         var keyhandler = new AlignFirstHandler();
@@ -64,6 +58,14 @@ require.def('lancaster-vision/appui/components/history',
         this.addEventListener("beforerender", function (ev) {
           self._onBeforeRender(ev);
         });
+      },
+
+      load_data: function() {
+        var historyFormatter = new HistoryFormatter();
+        this._dataSource = new DataSource(this, new HistoryFeed(this), "loadData");
+        var binder = new Binder(historyFormatter, this._dataSource);
+        this._carousel.removeChildWidgets();
+        binder.appendAllTo(this._carousel);
       },
 
       // Set correct focus once data is loaded
