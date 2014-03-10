@@ -11,9 +11,10 @@ require.def('lancaster-vision/appui/components/history',
     "antie/widgets/carousel/keyhandlers/alignfirsthandler",
     "lancaster-vision/lib/dataevent",
     "antie/widgets/verticallist",
-    "antie/widgets/horizontalprogress"
+    "antie/widgets/horizontalprogress",
+    "antie/widgets/carousel/navigators/wrappingnavigator"
   ],
-  function (Application, Component, DataSource, Carousel, Label, HistoryFormatter, HistoryFeed, Binder, AlignFirstHandler, Event, VerticalList, HorizontalProgress) {
+  function (Application, Component, DataSource, Carousel, Label, HistoryFormatter, HistoryFeed, Binder, AlignFirstHandler, Event, VerticalList, HorizontalProgress, WrappingNavigator) {
 
     // All components extend Component
     return Component.extend({
@@ -33,6 +34,7 @@ require.def('lancaster-vision/appui/components/history',
 
         // Create a new carousel and append it to the component
         this._carousel = new Carousel("history_carousel", Carousel.orientations.HORIZONTAL);
+        this._carousel.setNavigator(WrappingNavigator);
         this._list.appendChildWidget(this._carousel);
 
         this._carousel.addEventListener("afteralign", function(ev) {

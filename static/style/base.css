@@ -296,13 +296,13 @@ body {
 }*/
 
 #history .prog_details {
-  height: 285px;
+  height: 295px;
 }
 
 #history .prog_details .synopsis {
   padding: 0;
   white-space: initial;
-  line-height: 1.6em;
+  line-height: 1.5em;
 }
 
 #history .carouselItem.focus .label.synopsis {
@@ -325,13 +325,14 @@ body {
   margin: 3px 0;
 }
 
-#history .prog_details .button.play_button {
+#history .prog_details .button.resume_button {
   margin-bottom: 15px
 }
 
-/*#history .prog_details .button.resume_button {
-
-}*/
+#history .prog_details .watched_at {
+  color: #DDD;
+  font-size: 85%;
+}
 
 #history_carousel_CarouselMask {
   margin: 0 20px;
@@ -359,14 +360,14 @@ body {
 
 #history_progress_inner {
   background-color: #FFF;
-  width: 10px;
+  width: 25px;
   height: 4px;
   top: -1px;
   position: absolute;
 }
 
 #history_progress_left {
-  width: 600px;   
+  width: 900px;   
   margin: 0 auto;
   height: 4px;
   overflow: visible;
@@ -377,7 +378,7 @@ body {
 #history_progress_label {
   position: absolute;
   top: -10px;
-  left: 960px;
+  left: 1110px;
   margin: 0;
   padding: 0;
 }
