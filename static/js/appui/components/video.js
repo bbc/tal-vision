@@ -101,7 +101,7 @@ require.def('lancaster-vision/appui/components/video',
 
         self._app.getRootWidget().getChildWidget("maincontainer").getChildWidget("maincontroller").getMenu().addEventListener("focus", self._focusNavBar);
 
-        this._videoPlayer.addEventListener("progress", function () {
+        this._videoPlayer.addEventListener("timeupdate", function () {
           var player = self._videoPlayer;
           var current_pos = player.getCurrentTime();
 
