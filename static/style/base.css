@@ -381,3 +381,14 @@ body {
   margin: 0;
   padding: 0;
 }
+
+#debug {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: yellow;
+  color: black;
+}

@@ -130,6 +130,8 @@ require.def('lancaster-vision/appui/components/video',
                 console.log("Logging normal segment " + self._last_segment_start + ":" + currentSeconds);
               }
 
+              $('#debug').append('<p>Sending stats</p>');
+
               self.logPlayerSegment(self._last_segment_start, currentSeconds);
 
               this._last_segment_second = currentSeconds;
