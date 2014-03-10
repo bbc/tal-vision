@@ -16,6 +16,7 @@
   "dependencies": {
     "requirejs": "https://github.com/jrburke/requirejs/archive/0.15.0.zip",
     "tal": "https://github.com/fmtvp/tal/archive/1.4.8.zip",
-    "tal-input-text": "~0.1.0"
+    "tal-input-text": "~0.1.0",
+    "momentjs": "~2.5.1"
   }
 }
