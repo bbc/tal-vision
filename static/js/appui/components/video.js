@@ -8,9 +8,10 @@ require.def('lancaster-vision/appui/components/video',
     "antie/mediasource",
     "antie/widgets/horizontallist",
     "antie/widgets/verticallist",
-    "antie/widgets/scrubbar"
+    "antie/widgets/scrubbar",
+    "lancaster-vision/lib/user"
   ],
-  function(Container, Component, Button, Label, Image, MediaSource, HorizontalList, VerticalList, ScrubBar) {
+  function(Container, Component, Button, Label, Image, MediaSource, HorizontalList, VerticalList, ScrubBar, User) {
 
     return Component.extend({
       init: function (test) {
@@ -236,7 +237,7 @@ require.def('lancaster-vision/appui/components/video',
           data: {
             api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
             heartbeat_id: this._heartbeat_id,
-            user_id: window.user_id,
+            user_id: User.getUserId(),
             programme_id: programme.programme_id,
             file_id: file_url
           }
@@ -251,7 +252,7 @@ require.def('lancaster-vision/appui/components/video',
           data: {
             api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
             heartbeat_id: this._heartbeat_id,
-            user_id: window.user_id,
+            user_id: User.getUserId(),
             start: start,
             end: end
           }
