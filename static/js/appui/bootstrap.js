@@ -39,7 +39,7 @@ require.def('lancaster-vision/appui/bootstrap',
           function success(response){
 
             try {
-              window.user_id = parseInt(JSON.parse(response).user_id)
+              window.user_id = response.user_id;
             } catch (err) {
               console.log("Parsing error with auth response: " + response);
               self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/login");

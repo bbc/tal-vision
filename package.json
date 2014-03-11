@@ -32,7 +32,8 @@
     "express-session": "~1.0.2",
     "tal": "~0.2.0",
     "tal-config": "~0.1.0",
-    "connect-redis": "~1.5.0"
+    "connect-redis": "~1.5.0",
+    "request": "~2.34.0"
   },
   "devDependencies": {
     "nodemon": "~1.0.14"
