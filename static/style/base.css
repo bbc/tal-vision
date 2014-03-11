@@ -238,10 +238,6 @@ body {
   text-overflow: ellipsis;
 }
 
-.carouselItem .label.prog_name {
-  font-weight: bold;
-}
-
 .carouselItem .label.synopsis {
   color: #ddd;
   font-size: 95%;
