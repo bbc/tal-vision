@@ -232,12 +232,19 @@ body {
   line-height: 1.2em;
 }
 
-.carouselItem .label.synopsis {
+.carouselItem .label.prog_name, .carouselItem .label.synopsis {
   padding: 0 10px;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 95%;
+}
+
+.carouselItem .label.prog_name {
+  font-weight: bold;
+}
+
+.carouselItem .label.synopsis {
   color: #ddd;
+  font-size: 95%;
 }
 
 .carouselItem.focus .label.synopsis {
@@ -318,6 +325,7 @@ body {
 
 #history .carouselItem .label.prog_name {
   margin-top: 15px;
+  padding: 0;
 }
 
 #history .prog_details .button {

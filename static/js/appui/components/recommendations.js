@@ -5,7 +5,7 @@ require.def('lancaster-vision/appui/components/recommendations',
     "antie/datasource",
     "antie/widgets/carousel",
     "antie/widgets/label",
-    "lancaster-vision/appui/formatters/trendingformatter",
+    "lancaster-vision/appui/formatters/basiccarouselformatter",
     "lancaster-vision/appui/datasources/recommendationsfeed",
     "antie/widgets/carousel/binder",
     "antie/widgets/carousel/keyhandlers/alignfirsthandler",
@@ -13,7 +13,7 @@ require.def('lancaster-vision/appui/components/recommendations',
     "antie/widgets/carousel/navigators/wrappingnavigator",
     "antie/widgets/carousel/strips/wrappingstrip"
   ],
-  function (Application, Component, DataSource, Carousel, Label, TrendingFormatter, RecommendationsFeed, Binder, AlignFirstHandler, Event, WrappingNavigator, WrappingStrip) {
+  function (Application, Component, DataSource, Carousel, Label, CarouselFormatter, RecommendationsFeed, Binder, AlignFirstHandler, Event, WrappingNavigator, WrappingStrip) {
 
     // All components extend Component
     return Component.extend({
@@ -22,7 +22,7 @@ require.def('lancaster-vision/appui/components/recommendations',
         this._super("recommendations_carousel_component");
 
         // Create a simple formatter and data feed that will be used to populate the carousel
-        var trendingFormatter = new TrendingFormatter();
+        var formatter = new CarouselFormatter();
         var trendingFeed = new RecommendationsFeed(this);
         this._dataSource = new DataSource(this, trendingFeed, "loadData");
 
@@ -43,7 +43,7 @@ require.def('lancaster-vision/appui/components/recommendations',
         });
 
         // Bind data to the carousel
-        var binder = new Binder(trendingFormatter, this._dataSource);
+        var binder = new Binder(formatter, this._dataSource);
         binder.appendAllTo(this._carousel);
 
         // Attach keyhandlers to support left right keyboard navigation
