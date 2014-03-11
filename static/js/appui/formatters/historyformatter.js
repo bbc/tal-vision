@@ -55,7 +55,7 @@ require.def('lancaster-vision/appui/formatters/historyformatter',
           }
 
         } else {
-          resume_text = item.minutes_remaining + " minutes remaining";
+          resume_text = item.minutes_remaining <= 1 ? "1 minute remaining" : item.minutes_remaining + " minutes remaining";
         }
 
         var resume_label = new Label("Resume (" + resume_text + ")")

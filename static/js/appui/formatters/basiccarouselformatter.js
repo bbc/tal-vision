@@ -1,4 +1,4 @@
-require.def('lancaster-vision/appui/formatters/trendingformatter',
+require.def('lancaster-vision/appui/formatters/basiccarouselformatter',
   [
     "antie/formatter",
     "antie/widgets/label",
@@ -18,7 +18,10 @@ require.def('lancaster-vision/appui/formatters/trendingformatter',
 
         button = new Button("trending_" + item.programme_id);
         button.appendChildWidget(new Image("trending_img_" + item.programme_id, item.image_url, { width : width, height: height}));
-        button.appendChildWidget(new Label(item.programme_name));
+        
+        var prog_name = new Label(item.programme_name);
+        prog_name.addClass("prog_name");
+        button.appendChildWidget(prog_name);
         
         var synopsis = new Label(item.synopsis);
         synopsis.addClass("synopsis");
