@@ -3,9 +3,10 @@ require.def('lancaster-vision/appui/bootstrap',
     'antie/application',
     'antie/widgets/container',
     'lancaster-vision/lib/authenticator',
-    'antie/widgets/verticallist'
+    'antie/widgets/verticallist',
+    'lancaster-vision/lib/user'
   ],
-  function(Application, Container, Authenticator, VerticalList) {
+  function(Application, Container, Authenticator, VerticalList, User) {
 
     return Application.extend({
       init: function(appDiv, styleDir, imgDir, callback) {
@@ -37,14 +38,8 @@ require.def('lancaster-vision/appui/bootstrap',
 
         Authenticator(this.getDevice()).isAuthenticated(
           function success(response){
-
-            try {
-              window.user_id = response.user_id;
-            } catch (err) {
-              console.log("Parsing error with auth response: " + response);
-              self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/login");
-            }
-
+            response = JSON.parse(response);
+            User.setUserId(response.user_id);
             self.addComponentContainer("maincontainer", "lancaster-vision/appui/controller");
           },
           function failure(response){
