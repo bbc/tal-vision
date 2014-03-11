@@ -263,13 +263,30 @@ body {
 }
 
 /* InputText */
-.input-text {
-  border: 2px solid #ddd;
-  display: inline-block;
-  padding: 5px 10px;
+#search-form {
+  padding: 10px 50px;
 }
-.input-text.placeholder-active {
+
+#search-form .input-text {
+  border: 2px solid #ddd;
+  background-color: white;
+  color: #333;
+  font-size: 25px;
+  padding: 10px;
+}
+
+#search-form .input-text.placeholder-active {
   color: #999;
+}
+
+#search-form #search_ {
+  margin-top: 30px;
+}
+
+#search-form #ok {
+  margin: 30px auto 0;
+  height: 40px;
+  line-height: 40px; 
 }
 
 .carousel_heading {

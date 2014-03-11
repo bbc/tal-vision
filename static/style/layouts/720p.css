@@ -64,13 +64,16 @@
   height: 100%;
 }
 
-.keyboard .spacer,
-.keyboardButton {
+.keyboard .spacer, .keyboardButton {
   display: inline-block;
-  height: 30px;
-  line-height: 30px;
-  margin-right: 3px;
-  width: 30px;
+  height: 40px;
+  line-height: 40px;
+  margin-right: 5px;
+  width: 60px;
+}
+
+.keyboard .spacer {
+  width: 76px;
 }
 
 .keyDEL.lastcol {

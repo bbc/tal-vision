@@ -16,13 +16,20 @@ require.def('lancaster-vision/appui/components/search',
 
         this._super("login");
 
+        this._outer_list = new List();
+
+        var search_label = new Label("Search");
+        search_label.addClass("carousel_heading");
+        this._outer_list.appendChildWidget(search_label);
+
         this._form = new Container('search-form');
 
         var list = new List();
-        var input = new InputText('Eg: Doctor Who, Coronation Street', { placeholder: true });
+
+        var input = new InputText('e.g. Top Gear, Doctor Who, The Big Bang Theory', { placeholder: true });
 
         var button = new Button('ok')
-        button.appendChildWidget(new Label("Search", 'label'));
+        button.appendChildWidget(new Label("Search"));
         button.addClass('okButton');
         button.setDisabled(true);
 
@@ -33,6 +40,8 @@ require.def('lancaster-vision/appui/components/search',
         list.appendChildWidget(keyboard);
         list.appendChildWidget(button);
         this._form.appendChildWidget(list);
+
+        this._outer_list.appendChildWidget(this._form);
 
         // Events
         keyboard.addEventListener('textchange', function(e){
@@ -71,7 +80,7 @@ require.def('lancaster-vision/appui/components/search',
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function () {
-        this.appendChildWidget(this._form);
+        this.appendChildWidget(this._outer_list);
       }
     });
   }
