@@ -23,7 +23,11 @@ app.configure(function(){
       host: "localhost",
       db: "lancaster-vision-tal",
       url : process.env.REDISTOGO_URL || null
-    })
+    }),
+    cookie: {
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
+      maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days
+    }
   }));
 
   require('./src/templates/helpers')(hbs);
