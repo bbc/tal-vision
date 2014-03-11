@@ -7,10 +7,10 @@ require.def('lancaster-vision/appui/components/login',
     "antie/widgets/verticallist",
     "antie/widgets/componentcontainer",
     "lancaster-vision/lib/authenticator",
-    "bbcrd/widgets/input-text"
-
+    "bbcrd/widgets/input-text",
+    "lancaster-vision/lib/user"
   ],
-  function(Component, Button, Keyboard, Label, List, Container, Authenticator, InputText) {
+  function(Component, Button, Keyboard, Label, List, Container, Authenticator, InputText, User) {
 
     return Component.extend({
       init: function () {
@@ -52,7 +52,9 @@ require.def('lancaster-vision/appui/components/login',
         button.addEventListener('select', function(e){
           button.setDisabled(true);
 
-          Authenticator(device).verify(keyboard.getText(), function(user){
+          Authenticator(device).verify(keyboard.getText(), function(response) {
+            response = JSON.parse(response);
+            User.setUserId(response.user_id);
             app.showComponent('maincontainer', 'lancaster-vision/appui/controller');
           }, function(){
             keyboard.setActiveChildKey('1');
