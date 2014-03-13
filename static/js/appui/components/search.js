@@ -6,9 +6,10 @@ require.def('lancaster-vision/appui/components/search',
     "antie/widgets/label",
     "antie/widgets/verticallist",
     "antie/widgets/container",
-    "bbcrd/widgets/input-text"
+    "bbcrd/widgets/input-text",
+    "lancaster-vision/lib/dataevent"
   ],
-  function(Component, Button, Keyboard, Label, List, Container, InputText) {
+  function(Component, Button, Keyboard, Label, List, Container, InputText, Event) {
 
     return Component.extend({
       init: function () {
@@ -19,53 +20,54 @@ require.def('lancaster-vision/appui/components/search',
         this._outer_list = new List();
 
         var search_label = new Label("Search");
-        search_label.addClass("carousel_heading");
+        search_label.addClass("heading");
         this._outer_list.appendChildWidget(search_label);
 
         this._form = new Container('search-form');
 
         var list = new List();
 
-        var input = new InputText('e.g. Top Gear, Doctor Who, The Big Bang Theory', { placeholder: true });
+        this._input = new InputText('e.g. Top Gear, Doctor Who, The Big Bang Theory', { placeholder: true });
 
-        var button = new Button('ok')
-        button.appendChildWidget(new Label("Search"));
-        button.addClass('okButton');
-        button.setDisabled(true);
+        this._button = new Button('ok')
+        this._button.appendChildWidget(new Label("Search"));
+        this._button.addClass('okButton');
+        this._button.setDisabled(true);
 
-        var keyboard = new Keyboard('search_', 13, 4, '1234567890_- _QWERTYUIOP____ASDFGHJKL_____ZXCVBNM___');
+        var keyboard = new Keyboard('search_', 10, 4, '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ__- ');
         keyboard.setActiveChildKey('1');
 
-        list.appendChildWidget(input);
+        list.appendChildWidget(this._input);
         list.appendChildWidget(keyboard);
-        list.appendChildWidget(button);
+        list.appendChildWidget(this._button);
         this._form.appendChildWidget(list);
 
         this._outer_list.appendChildWidget(this._form);
 
         // Events
         keyboard.addEventListener('textchange', function(e){
-          input.setText(e.text);
+          self._input.setText(e.text);
         });
 
-        input.addEventListener('empty', function(){
-          button.setDisabled(true);
+        this._input.addEventListener('empty', function(){
+          self._button.setDisabled(true);
         });
-        input.addEventListener('not-empty', function(){
-          button.setDisabled(false);
-        });
-
-        button.addEventListener('select', function(){
-          button.setDisabled(true);
-          button.getChildWidgets('label').setText('Searching…');
-
-          // Perform the ajaz search and populate
-          /*
-
-           */
+        this._input.addEventListener('not-empty', function(){
+          self._button.setDisabled(false);
         });
 
-        this.addEventListener("beforerender", function(e){
+        this._button.addEventListener('select', function(){
+
+          // Emit search event when the search button is selected
+          try {
+            self.bubbleEvent(new Event('search', self._input.getText()));
+          } catch (e) {
+            console.log(e);
+          }
+
+        });
+
+        this.addEventListener("beforerender", function(e) {
           self._onBeforeRender(e);
         });
 

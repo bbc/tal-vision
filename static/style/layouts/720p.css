@@ -66,14 +66,33 @@
 
 .keyboard .spacer, .keyboardButton {
   display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin-right: 3px;
+  width: 30px;
+}
+
+#search-form .keyboardButton {
   height: 40px;
   line-height: 40px;
   margin-right: 5px;
+  margin-bottom: 5px;
   width: 60px;
 }
 
-.keyboard .spacer {
+#search-form .keyboard .spacer {
   width: 76px;
+  height: 56px;
+  vertical-align: top;
+  margin-right: 5px;
+}
+
+#search-form #ok {
+  margin-left: 185px;
+  margin-top: 50px;
+  height: 40px;
+  line-height: 40px;
+  max-width: 789px; 
 }
 
 .keyDEL.lastcol {

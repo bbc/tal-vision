@@ -22,10 +22,10 @@ require.def('lancaster-vision/appui/components/history',
         var self = this;
         this._super("history");
 
-        this._list = new VerticalList();
+        this._list = new VerticalList("extended_carousel_view");
 
         var history_label = new Label("History");
-        history_label.addClass("carousel_heading");
+        history_label.addClass("heading");
         this._list.appendChildWidget(history_label);
 
         // Progress bar

@@ -34,7 +34,6 @@ require.def('lancaster-vision/appui/components/video',
             self._scrubbing = false;
             var time = self._videoPlayer.getDuration() * self._scrub.getValue();
             self._videoPlayer.setCurrentTime(time)
-            self._videoPlayer.play();
         });
         this._scrub.addEventListener("sliderchange", function () {
             self._scrubbing = true;
@@ -92,7 +91,6 @@ require.def('lancaster-vision/appui/components/video',
         this.addEventListener("focus", function(ev) {
           self.showControls();
           self.setControlsHideTimeout();
-
         });
 
         this._focusNavBar = function(ev) {
@@ -194,28 +192,24 @@ require.def('lancaster-vision/appui/components/video',
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function (e) {
         this.hideHeader();
-
         this.appendChildWidget(this._videoPlayer);
         this.appendChildWidget(this._gui_list);
-
         this.setControlsHideTimeout();
-
         this.logPlayerInstance(e.args);
-      
         this.queueVideo(e.args);
       },
 
       queueVideo: function(programme) {
         this._start_time = programme.tal_resume_from || 0;
 
+        console.log("Following programme is about to play:");
+        console.log(programme);
+
         console.log("start_time = " + this._start_time);
         console.log("programme.tal_resume_from = " + programme.tal_resume_from);
 
         this._last_segment_start = this._start_time;
         this._last_segment_second = this._start_time;
-
-        console.log("_last_segment_start = " + this._last_segment_start);
-        console.log("_last_segment_second = " + this._last_segment_second);
 
         this._videoPlayer.setSources([
           new MediaSource("http://148.88.32.70/" + programme.programme_id + ".mp4", "video/mp4")
