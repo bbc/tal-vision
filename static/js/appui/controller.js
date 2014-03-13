@@ -59,8 +59,13 @@ require.def('lancaster-vision/appui/controller',
         // VOD playback request
         this._content_container.addEventListener('vod.show', function(e){
           var programme = e.args[0];
-
           skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/video', programme);
+        });
+
+        // Search request
+        this._content_container.addEventListener('search', function(e){
+          var search_term = e.args[0];
+          skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/searchresults', search_term);
         });
 
         // // Navigation bar hide

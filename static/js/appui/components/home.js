@@ -24,11 +24,11 @@ require.def('lancaster-vision/appui/components/home',
         this._trending_container.pushComponent('lancaster-vision/appui/components/trending');
 
         var recommendations_label = new Label("Recommendations");
-        recommendations_label.addClass("carousel_heading");
+        recommendations_label.addClass("heading");
         recommendations_label.addClass("first");
 
         var trending_label = new Label("Trending");
-        trending_label.addClass("carousel_heading");
+        trending_label.addClass("heading");
 
         this._list.appendChildWidget(recommendations_label);
         this._list.appendChildWidget(this._recommendations_container);
