@@ -42,7 +42,7 @@ require.def('lancaster-vision/appui/components/searchresults',
         this._back_button = new Button("back_button");
         this._back_button.appendChildWidget(new Label("No search results found<br><br>Return to search keyboards"));
         this._back_button.addEventListener('select', function(e) {
-          self._app.back();
+          self.parentWidget.back();
         });
 
         this._carousel.addEventListener("afteralign", function(ev) {
