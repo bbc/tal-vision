@@ -1,0 +1,22 @@
+{
+   "responseHeader":{
+      "status":0,
+      "QTime":1,
+      "params":{
+         "sort":"score desc",
+         "send_filters":"false",
+         "start":"0",
+         "q":"*1AKU*",
+         "wt":"json",
+         "rows":"10"
+      }
+   },
+   "response":{
+      "numFound":0,
+      "start":0,
+      "docs":[
+
+      ],
+      "genres_and_channels":"{\"genres\":[{\"name\":\"Arts\"},{\"name\":\"Childrens\"},{\"name\":\"Comedy\"},{\"name\":\"Current affairs\"},{\"name\":\"Documentary\"},{\"name\":\"Drama\"},{\"name\":\"Education\"},{\"name\":\"Entertainment\"},{\"name\":\"Film\"},{\"name\":\"Food\"},{\"name\":\"History\"},{\"name\":\"Lifestyle\"},{\"name\":\"Music\"},{\"name\":\"Nature\"},{\"name\":\"News\"},{\"name\":\"Property\"},{\"name\":\"Reality\"},{\"name\":\"Science\"},{\"name\":\"Sitcom\"},{\"name\":\"Soap\"},{\"name\":\"Sport\"}],\"channels\":[{\"name\":\"4Music\"},{\"name\":\"5 USA\"},{\"name\":\"Al Jazeera Eng\"},{\"name\":\"BBC FOUR\"},{\"name\":\"BBC NEWS\"},{\"name\":\"BBC ONE\"},{\"name\":\"BBC Parliament\"},{\"name\":\"BBC THREE\"},{\"name\":\"BBC TWO\"},{\"name\":\"CBBC Channel\"},{\"name\":\"CBeebies\"},{\"name\":\"Channel 4\"},{\"name\":\"Channel 5\"},{\"name\":\"Dave\"},{\"name\":\"E4\"},{\"name\":\"Film4\"},{\"name\":\"Food Network\"},{\"name\":\"ITV1\"},{\"name\":\"ITV2\"},{\"name\":\"ITV3\"},{\"name\":\"ITV4\"},{\"name\":\"More 4\"},{\"name\":\"Pick TV\"},{\"name\":\"QUEST\"},{\"name\":\"Rai 1\"},{\"name\":\"Red Button 1\"},{\"name\":\"Red Button 2\"},{\"name\":\"Russia Today\"},{\"name\":\"Sky News\"},{\"name\":\"Viva\"},{\"name\":\"Yesterday\"},{\"name\":\"ZDF\"}]}"
+   }
+}
