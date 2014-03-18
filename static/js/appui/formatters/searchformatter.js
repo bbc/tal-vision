@@ -42,7 +42,7 @@ require.def('lancaster-vision/appui/formatters/searchformatter',
 
         // Play button
         this._play = new Button("play_button");
-        this._play.appendChildWidget(new Label("Play From Begining"));
+        this._play.appendChildWidget(new Label("Play From Beginning"));
         this._play.addClass("play_button");
         buttons_list.appendChildWidget(this._play);
 
