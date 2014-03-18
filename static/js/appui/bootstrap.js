@@ -18,13 +18,10 @@ require.def('lancaster-vision/appui/bootstrap',
         // Sets the root widget of the application to be
         // an empty container
         self._setRootContainer = function() {
-          var vertical_layout = new VerticalList();
-          vertical_layout.outputElement = appDiv;
-
           var header_container = new Container();
-          vertical_layout.appendChildWidget(header_container);
+          header_container.outputElement = appDiv;
 
-          self.setRootWidget(vertical_layout);
+          self.setRootWidget(header_container);
         };
 
       },
