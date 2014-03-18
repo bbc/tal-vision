@@ -21,13 +21,11 @@ require.def('lancaster-vision/appui/datasources/searchfeed',
             var json = JSON.parse(responseObject);
             var search_results = [];
 
+            // Filter search results to check VOD is available
             json.response.docs.forEach(function(programme) {
-
-              // Check the VOD is available
               if(!programme.not_available) {
                 search_results.push(programme);
               }
-
             });
 
             callbacks.onSuccess(search_results);

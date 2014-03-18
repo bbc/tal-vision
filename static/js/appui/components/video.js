@@ -21,7 +21,7 @@ require.def('lancaster-vision/appui/components/video',
         // It is important to call the constructor of the superclass
         this._super("home");
 
-        this._app = this.getCurrentApplication();;
+        this._app = this.getCurrentApplication();
         this._device = this._app.getDevice();
         this._videoPlayer = this._device.createPlayer("player", "video");
 

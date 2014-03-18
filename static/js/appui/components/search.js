@@ -14,8 +14,9 @@ require.def('lancaster-vision/appui/components/search',
     return Component.extend({
       init: function () {
         var self = this;
+        this._app = this.getCurrentApplication();
 
-        this._super("login");
+        this._super("search");
 
         this._outer_list = new List();
 
@@ -56,15 +57,9 @@ require.def('lancaster-vision/appui/components/search',
           self._button.setDisabled(false);
         });
 
-        this._button.addEventListener('select', function(){
-
-          // Emit search event when the search button is selected
-          try {
-            self.bubbleEvent(new Event('search', self._input.getText()));
-          } catch (e) {
-            console.log(e);
-          }
-
+        // Emit search event when the search button is selected
+        this._button.addEventListener('select', function() {
+          self.bubbleEvent(new Event('search-results', self._input.getText()));
         });
 
         this.addEventListener("beforerender", function(e) {

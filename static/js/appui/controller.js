@@ -57,15 +57,20 @@ require.def('lancaster-vision/appui/controller',
         this._content_container.pushComponent('lancaster-vision/appui/components/home');
 
         // VOD playback request
-        this._content_container.addEventListener('vod.show', function(e){
+        this._content_container.addEventListener('vod.show', function(e) {
           var programme = e.args[0];
           skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/video', programme);
         });
 
-        // Search request
-        this._content_container.addEventListener('search', function(e){
+        // Search results
+        this._content_container.addEventListener('search-results', function(e) {
           var search_term = e.args[0];
           skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/searchresults', search_term);
+        });
+
+        // Search form
+        this._content_container.addEventListener('search', function(e) {
+          skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/search');
         });
 
         // // Navigation bar hide

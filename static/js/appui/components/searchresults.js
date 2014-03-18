@@ -21,8 +21,7 @@ require.def('lancaster-vision/appui/components/searchresults',
     return Component.extend({
       init: function () {
         var self = this;
-        this._app = this.getCurrentApplication();;
-        this._super("search");
+        this._super("search_results");
 
         this._list = new VerticalList("extended_carousel_view");
 
@@ -32,17 +31,16 @@ require.def('lancaster-vision/appui/components/searchresults',
 
         // Progress bar
         this._progress = new HorizontalProgress("search_progress", true);
-        this._list.appendChildWidget(this._progress);
 
         // Create a new carousel and append it to the component
         this._carousel = new Carousel("search_carousel", Carousel.orientations.HORIZONTAL);
         this._carousel.setNavigator(WrappingNavigator);
-        this._list.appendChildWidget(this._carousel);
 
         this._back_button = new Button("back_button");
-        this._back_button.appendChildWidget(new Label("No search results found<br><br>Return to search keyboards"));
+        this._back_button.appendChildWidget(new Label("No search results found<br><br>Return to search keyboard"));
+
         this._back_button.addEventListener('select', function(e) {
-          self.parentWidget.back();
+          self.bubbleEvent(new Event('search'));
         });
 
         this._carousel.addEventListener("afteralign", function(ev) {
@@ -53,17 +51,24 @@ require.def('lancaster-vision/appui/components/searchresults',
           self._progress.setText((index + 1) + " of " + total);
         });
 
-        // Setup event listeners to set focus on first widget after data binding
-        this._carousel.addEventListener("databound", function (evt) {
-          self._onDataBound(evt);
-        });
-
         // Attach keyhandlers to support up down keyboard navigation
         var keyhandler = new AlignFirstHandler();
         keyhandler.attach(this._carousel);
 
+        // Setup event listeners to set focus on first widget after data binding
+        this._carousel.addEventListener("databound", function (ev) {
+          self._onDataBound(ev);
+        });
+
         this.addEventListener("beforerender", function (ev) {
           self._onBeforeRender(ev);
+        });
+
+        // calls Application.ready() the first time the component is shown
+        // the callback removes itself once it's fired to avoid multiple calls.
+        this.addEventListener("aftershow", function(ev) {
+          self.getCurrentApplication().ready();
+          self.removeEventListener('aftershow', appReady);
         });
       },
 
@@ -75,14 +80,20 @@ require.def('lancaster-vision/appui/components/searchresults',
         binder.appendAllTo(this._carousel);
       },
 
-      // Set correct focus once data is loaded
-      _onDataBound: function (evt) {
+      _onDataBound: function (ev) {
         var children = this._carousel.getChildWidgets();
 
         if(children.length == 0) {
+          this._list.removeChildWidget(this._progress);
+          this._list.removeChildWidget(this._carousel);
+
           this._list.appendChildWidget(this._back_button);
           this._back_button.focus();
         } else {
+          this._list.removeChildWidget(this._back_button);
+
+          this._list.appendChildWidget(this._progress);
+          this._list.appendChildWidget(this._carousel);
           this._carousel.alignToIndex(0);
           children[0].focus();
 
@@ -100,19 +111,28 @@ require.def('lancaster-vision/appui/components/searchresults',
           });
         }
 
+        this._list.focus();
+
       },
 
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function (ev) {
+        debugger;
         var search_term = ev.args;
         console.log("Received search term %s", search_term);
 
         // Bind data to the carousel
-        this.load_data(search_term);
+        try {
+          this.load_data(search_term);
+          this._onDataBound();
+        } catch(err) {
+          console.log(err);
+        }
 
         this.appendChildWidget(this._list);
       }
+
     });
   }
 );
