@@ -27,11 +27,6 @@ require.def('lancaster-vision/appui/formatters/searchformatter',
         var prog_name_label = new Label(item.programme_name);
         prog_name_label.addClass("prog_name");
         prog_details_list.appendChildWidget(prog_name_label);
-        
-        var formatted_date = moment(item.watched_at).fromNow();
-        var datetime = new Label("Watched " + formatted_date);
-        datetime.addClass("watched_at");
-        prog_details_list.appendChildWidget(datetime);
 
         var synopsis = new Label(item.synopsis);
         synopsis.addClass("synopsis");
