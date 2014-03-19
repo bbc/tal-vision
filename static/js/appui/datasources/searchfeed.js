@@ -13,7 +13,7 @@ require.def('lancaster-vision/appui/datasources/searchfeed',
         var app = this._app.getCurrentApplication();
         var device = app.getDevice();
 
-        var url = "http://10.42.32.184/search2.php?start=0&rows=10&url=%2Ffuture%2Fselect&wt=json&send_filters=false&sort=score%2Bdesc";
+        var url = "http://10.42.32.184/search2.php?start=0&rows=50&url=%2Ffuture%2Fselect&wt=json&send_filters=false&sort=score%2Bdesc";
         url += "&q=*" + this._search_term + "*";
 
         device.loadURL(url, {
