@@ -1,65 +1,64 @@
 {
-  "pageStrategy": "samsungmaple",
-  "modules": {
-    "base": "antie/devices/browserdevice",
-    "modifiers": [
+  "pageStrategy":"samsungmaple",
+  "modules":{
+    "base":"antie/devices/browserdevice",
+    "modifiers":[
       "antie/devices/anim/styletopleft",
       "antie/devices/media/html5",
-      "antie/devices/net/default",
+      "antie/devices/broadcastsource/samsungtvsource",
       "antie/devices/data/nativejson",
+      "antie/devices/net/default",
       "antie/devices/storage/cookie",
       "antie/devices/logging/onscreen",
       "antie/devices/logging/xhr",
       "antie/devices/logging/jstestdriver",
-      "antie/devices/exit/closewindow"
+      "antie/devices/exit/samsung_maple",
+      "antie/devices/exit/broadcast/samsung_maple"
     ]
   },
-  "logging": {
-    "level": "none"
+  "logging":{
+    "level":"none"
   },
-  "streaming": {
-    "video": {
-      "mediaURIFormat": "%href%",
-      "supported": [
+  "streaming":{
+    "video":{
+      "mediaURIFormat":"%href%",
+      "supported":[
         {
-          "protocols": [
+          "protocols":[
             "http"
           ],
-          "encodings": [
+          "encodings":[
             "h264"
           ],
-          "transferFormat": [
+          "transferFormat":[
             "hls",
             "plain"
           ],
-          "maximumBitRate": 3600,
-          "maximumVideoLines": 1080
+          "maximumBitRate":3600,
+          "maximumVideoLines":1080
         }
-      ]
+      ],
+      "mediaSelectorURI":"https://samsung.iplayer.bbc.co.uk/mediaselector/5/select/version/2.0/vpid/%vpid%/format/json/mediaset/stb-all-h264/jsfunc/%callback%/proto/http/transferformat/plain"
     },
-    "audio": {
-      "mediaURIFormat": "%href%",
-      "supported": [
+    "audio":{
+      "mediaURIFormat":"%href%",
+      "supported":[
         {
-          "protocols": [
+          "protocols":[
             "http"
           ],
-          "encodings": [
+          "encodings":[
             "aac"
-          ],
-          "maximumBitRate": 192
+          ]
         }
-      ]
+      ],
+      "mediaSelectorURI":"https://samsung.iplayer.bbc.co.uk/mediaselector/5/select/version/2.0/vpid/%vpid%/format/json/mediaset/stb-aac/jsfunc/%callback%/proto/http/transferformat/plain"
     }
   },
-  "input": {
-    "map": {
-      "29460":"UP",
-      "29461":"DOWN",
+  "input":{
+    "map":{
       "4":"LEFT",
       "5":"RIGHT",
-      "101":"1",
-      "98":"2",
       "6":"3",
       "8":"4",
       "9":"5",
@@ -75,17 +74,21 @@
       "72":"FAST_FWD",
       "74":"PAUSE",
       "88":"BACK",
-      "29443":"ENTER"
+      "98":"2",
+      "101":"1",
+      "29443":"ENTER",
+      "29460":"UP",
+      "29461":"DOWN"
     }
   },
-  "accessibility": {
-    "captions": {
-      "supported": [
+  "accessibility":{
+    "captions":{
+      "supported":[
         "application/ttaf+xml"
       ]
     }
   },
-  "layouts": [
+  "layouts":[
     {
       "width": 960,
       "height": 540,
@@ -103,7 +106,53 @@
       ]
     }
   ],
-  "networking": {
-    "supportsJSONP": true
+  "networking":{
+    "supportsJSONP":true
+  },
+  "_comment_user_agent":"Mozilla/5.0 (SmartHub; SMART-TV; U; Linux/SmartTV; Maple2012) AppleWebKit/534.7 (KHTML, like Gecko) SmartTV Safari/534.7 Series=8000(TV)",
+  "appVersion":"3.7.19",
+  "previewV4":true,
+  "mediasets":{
+    "tv":"stb-all-h264",
+    "radio":"stb-aac"
+  },
+  "widgets":{
+    "horizontalprogress":{
+      "animate":false
+    },
+    "componentcontainer":{
+      "fade":true
+    },
+    "horizontalcarousel":{
+      "fade":true,
+      "bindDelay":1000
+    }
+  },
+  "components":{
+    "deviceDefault":{
+      "fps":25,
+      "duration":320,
+      "easing":"linear"
+    },
+    "player":{
+      "slide":true,
+      "fade":true
+    },
+    "mainMenu":{
+      "duration":160,
+      "easing":"linear"
+    },
+    "subMenu":{
+      "duration":160,
+      "easing":"linear"
+    },
+    "mainCarousel":{
+      "duration":320,
+      "easing":"easeInOutSine"
+    },
+    "subCarousel":{
+      "duration":240,
+      "easing":"easeOutSine"
+    }
   }
 }
