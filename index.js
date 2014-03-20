@@ -6,6 +6,7 @@ var redisStore = require('connect-redis')(session);
 var hbs = require('express-hbs');
 var app = express();
 var tal = require('tal');
+var fs = require('fs');
 
 app.configure(function(){
   app.engine('hbs', hbs.express3({
@@ -38,6 +39,10 @@ app.use(function(req, res, next){
   console.log('%s %s', req.method, req.url);
   next();
 });
+
+// Express logger
+var logFile = fs.createWriteStream('./tal.log', {flags: 'a'}); //use {flags: 'w'} to open in write mode
+app.use(express.logger({stream: logFile}));
 
 app.use('/components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/static'));
