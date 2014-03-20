@@ -35,14 +35,27 @@ app.configure(function(){
 });
 
 // Simple request logger
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
   console.log('%s %s', req.method, req.url);
   next();
 });
 
 // Express logger
-var logFile = fs.createWriteStream('./tal.log', {flags: 'a'}); //use {flags: 'w'} to open in write mode
+var logFile = fs.createWriteStream('./tal.log', {flags: 'a'});
 app.use(express.logger({stream: logFile}));
+
+// Detect custom test devices and populate device and model req params
+app.use(function(req, res, next) {
+  var user_agent = req.headers['user-agent'];
+  var is_samsung = user_agent.indexOf("Maple2012") != -1;
+
+  if(is_samsung) {
+    req.query.brand = "custom";
+    req.query.model = "samsung";
+  }
+
+  next();
+});
 
 app.use('/components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/static'));
