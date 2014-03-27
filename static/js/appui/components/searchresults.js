@@ -140,9 +140,7 @@ require.def('lancaster-vision/appui/components/searchresults',
             api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
             log_type: "TAL_SEARCH_REQUEST",
             user_id: User.getUserId(),
-            attributes: {
-              search_term: search_term
-            }
+            attributes: JSON.stringify({ search_term: search_term })
           }
         });
       }

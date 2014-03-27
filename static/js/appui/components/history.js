@@ -95,10 +95,10 @@ require.def('lancaster-vision/appui/components/history',
                 api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
                 log_type: "TAL_HISTORY_PLAY",
                 user_id: User.getUserId(),
-                attributes: {
+                attributes: JSON.stringify({
                   programme_id: programme.programme_id,
                   from: 0
-                }
+                })
               }
             });
 
@@ -117,10 +117,10 @@ require.def('lancaster-vision/appui/components/history',
                 api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
                 log_type: "TAL_HISTORY_RESUME",
                 user_id: User.getUserId(),
-                attributes: {
+                attributes: JSON.stringify({
                   programme_id: programme.programme_id,
-                  from: programme.last_known_position
-                }
+                  start: programme.last_known_position
+                })
               }
             });
 

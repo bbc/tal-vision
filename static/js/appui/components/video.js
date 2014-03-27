@@ -29,7 +29,7 @@ require.def('lancaster-vision/appui/components/video',
         this._gui_list = new VerticalList('gui');
 
         // Scrub bar
-        this._scrub = new ScrubBar('scrub', 0, 0.01, 0.05, 1);        
+        this._scrub = new ScrubBar('scrub', 0, 0.01, 0.05, 1);
         this._scrub.addEventListener("sliderchangeend", function () {
             self._scrubbing = false;
             var time = self._videoPlayer.getDuration() * self._scrub.getValue();
@@ -56,13 +56,13 @@ require.def('lancaster-vision/appui/components/video',
 
         this._playPause.addEventListener('select', function(e) {
           if(self._playPauseState == "pause") {
-            self._videoPlayer.pause();  
-            self._playPauseState = "play";   
-            self._playPauseLabel.setText("Play");       
+            self._videoPlayer.pause();
+            self._playPauseState = "play";
+            self._playPauseLabel.setText("Play");
           } else if(self._playPauseState == "play") {
-            self._videoPlayer.play();  
-            self._playPauseState = "pause";   
-            self._playPauseLabel.setText("Pause");       
+            self._videoPlayer.play();
+            self._playPauseState = "pause";
+            self._playPauseLabel.setText("Pause");
           }
         });
 
@@ -85,7 +85,7 @@ require.def('lancaster-vision/appui/components/video',
           self.showHeader();
           self.showControls();
           self.clearControlsHideTimeout();
-          self._app.getRootWidget().getChildWidget("maincontainer").getChildWidget("maincontroller").getMenu().removeEventListener("focus", self._focusNavBar);        
+          self._app.getRootWidget().getChildWidget("maincontainer").getChildWidget("maincontroller").getMenu().removeEventListener("focus", self._focusNavBar);
         });
 
         this.addEventListener("focus", function(ev) {
@@ -138,7 +138,7 @@ require.def('lancaster-vision/appui/components/video',
               this._last_segment_second = currentSeconds;
             }
           }
-          
+
         });
 
         // calls Application.ready() the first time the component is shown
@@ -234,6 +234,21 @@ require.def('lancaster-vision/appui/components/video',
             user_id: User.getUserId(),
             programme_id: programme.programme_id,
             file_id: file_url
+          }
+        });
+
+        // Log a TAL specific playback log
+        $.ajax({
+          url: "http://10.42.32.75:9110/capture/log",
+          type: "get",
+          data: {
+            api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
+            log_type: "TAL_PLAYBACK",
+            user_id: User.getUserId(),
+            attributes: JSON.stringify({
+              programme_id: programme.programme_id,
+              file_id: file_url
+            })
           }
         });
 
