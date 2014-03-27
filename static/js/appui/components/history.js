@@ -12,9 +12,10 @@ require.def('lancaster-vision/appui/components/history',
     "lancaster-vision/lib/dataevent",
     "antie/widgets/verticallist",
     "antie/widgets/horizontalprogress",
-    "antie/widgets/carousel/navigators/wrappingnavigator"
+    "antie/widgets/carousel/navigators/wrappingnavigator",
+    "lancaster-vision/lib/user"
   ],
-  function (Application, Component, DataSource, Carousel, Label, HistoryFormatter, HistoryFeed, Binder, AlignFirstHandler, Event, VerticalList, HorizontalProgress, WrappingNavigator) {
+  function (Application, Component, DataSource, Carousel, Label, HistoryFormatter, HistoryFeed, Binder, AlignFirstHandler, Event, VerticalList, HorizontalProgress, WrappingNavigator, User) {
 
     // All components extend Component
     return Component.extend({
@@ -40,7 +41,7 @@ require.def('lancaster-vision/appui/components/history',
         this._carousel.addEventListener("afteralign", function(ev) {
           var index = ev.alignedIndex;
           var total = self._carousel.items().length;
-          
+
           self._progress.setValue(index/(total - 1));
           self._progress.setText((index + 1) + " of " + total);
         });
@@ -85,12 +86,44 @@ require.def('lancaster-vision/appui/components/history',
 
           play.addEventListener('select', function(e) {
             var programme = prog_widget.getDataItem();
+
+            // Log the History video play request
+            $.ajax({
+              url: "http://10.42.32.75:9110/capture/log",
+              type: "get",
+              data: {
+                api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
+                log_type: "TAL_HISTORY_PLAY",
+                user_id: User.getUserId(),
+                attributes: {
+                  programme_id: programme.programme_id,
+                  from: 0
+                }
+              }
+            });
+
             programme.tal_resume_from = null;
             prog_widget.bubbleEvent(new Event('vod.show', programme));
           });
 
           resume.addEventListener('select', function(e) {
             var programme = prog_widget.getDataItem();
+
+            // Log the History video play request
+            $.ajax({
+              url: "http://10.42.32.75:9110/capture/log",
+              type: "get",
+              data: {
+                api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
+                log_type: "TAL_HISTORY_RESUME",
+                user_id: User.getUserId(),
+                attributes: {
+                  programme_id: programme.programme_id,
+                  from: programme.last_known_position
+                }
+              }
+            });
+
             programme.tal_resume_from = programme.last_known_position;
             prog_widget.bubbleEvent(new Event('vod.show', programme));
           });
@@ -101,6 +134,17 @@ require.def('lancaster-vision/appui/components/history',
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function () {
         this.appendChildWidget(this._list);
+
+        // Log the search request
+        $.ajax({
+          url: "http://10.42.32.75:9110/capture/log",
+          type: "get",
+          data: {
+            api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
+            log_type: "TAL_HISTORY",
+            user_id: User.getUserId()
+          }
+        });
       }
     });
   }

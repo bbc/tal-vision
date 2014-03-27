@@ -13,9 +13,10 @@ require.def('lancaster-vision/appui/components/searchresults',
     "antie/widgets/verticallist",
     "antie/widgets/horizontalprogress",
     "antie/widgets/carousel/navigators/wrappingnavigator",
-    "antie/widgets/button"
+    "antie/widgets/button",
+    "lancaster-vision/lib/user"
   ],
-  function (Application, Component, DataSource, Carousel, Label, SearchFormatter, SearchFeed, Binder, AlignFirstHandler, Event, VerticalList, HorizontalProgress, WrappingNavigator, Button) {
+  function (Application, Component, DataSource, Carousel, Label, SearchFormatter, SearchFeed, Binder, AlignFirstHandler, Event, VerticalList, HorizontalProgress, WrappingNavigator, Button, User) {
 
     // All components extend Component
     return Component.extend({
@@ -46,7 +47,7 @@ require.def('lancaster-vision/appui/components/searchresults',
         this._carousel.addEventListener("afteralign", function(ev) {
           var index = ev.alignedIndex;
           var total = self._carousel.items().length;
-          
+
           self._progress.setValue(index/(total - 1));
           self._progress.setText((index + 1) + " of " + total);
         });
@@ -118,7 +119,6 @@ require.def('lancaster-vision/appui/components/searchresults',
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function (ev) {
-        debugger;
         var search_term = ev.args;
         console.log("Received search term %s", search_term);
 
@@ -131,6 +131,20 @@ require.def('lancaster-vision/appui/components/searchresults',
         }
 
         this.appendChildWidget(this._list);
+
+        // Log the search request
+        $.ajax({
+          url: "http://10.42.32.75:9110/capture/log",
+          type: "get",
+          data: {
+            api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
+            log_type: "TAL_SEARCH_REQUEST",
+            user_id: User.getUserId(),
+            attributes: {
+              search_term: search_term
+            }
+          }
+        });
       }
 
     });
