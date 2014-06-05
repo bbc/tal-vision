@@ -27,7 +27,7 @@ require.def('lancaster-vision/appui/formatters/historyformatter',
         var prog_name_label = new Label(item.programme_name);
         prog_name_label.addClass("prog_name");
         prog_details_list.appendChildWidget(prog_name_label);
-        
+
         var formatted_date = moment(item.watched_at).fromNow();
         var datetime = new Label("Watched " + formatted_date);
         datetime.addClass("watched_at");
@@ -65,7 +65,7 @@ require.def('lancaster-vision/appui/formatters/historyformatter',
 
         // Play button
         this._play = new Button("play_button");
-        this._play.appendChildWidget(new Label("Play From Begining"));
+        this._play.appendChildWidget(new Label("Play From Beginning"));
         this._play.addClass("play_button");
         buttons_list.appendChildWidget(this._play);
 
