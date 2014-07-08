@@ -1,10 +1,69 @@
-<!DOCTYPE html>
-<html>
+{{{tal.doctype}}}
+{{{tal.rootTag}}}
 <head>
-  <meta name="viewport" content="initial-scale=1.0">
   <title>{{ title }}</title>
+  {{{tal.deviceHeaders}}}
+  <link rel="stylesheet" href="/style/base.css"/>
+  <script src="/components/jquery/dist/jquery.min.js"></script>
+  <script src="/components/cryptojs/rollups/sha1.js"></script>
+  <script src="/components/momentjs/min/moment.min.js"></script>
+
+  <script>
+    var antie = {{{json tal.config compact=true}}};
+    var require = {
+      baseUrl: '',
+      paths: {
+        '{{tal.app_id}}': '/js',
+        antie: "/components/tal/static/script",
+        'bbcrd/widgets/input-text': "/components/tal-input-text/src/widgets/input-text"
+      }
+    };
+  </script>
+
+  <script src="/components/tal/static/script/lib/require.js"></script>
 </head>
 <body>
-<main>{{{ body }}}</main>
+{{{tal.deviceBody}}}
+
+<div id="loading" style="padding: 20px">
+  <p>The Vision TAL application is loading ...</p>
+</div>
+
+<div id="app" class="display-none">
+  <div id="debug">
+  </div>
+  <div id="header">
+    <img src="http://148.88.32.64/cache/192x59-1/icons/vision_logo.png" id="logo">
+  </div>
+  <div id="main">
+    {{{ body }}}
+  </div>
+</div>
+
+<script>
+  require.onError = function(e) {
+    var div = document.createElement('div');
+    div.innerHTML = e.message;
+    div.className = 'message error-message';
+
+    document.body.appendChild(div);
+  };
+
+  require(['{{tal.app_id}}/appui/bootstrap'],
+      function(VisionTAL) {
+
+        require.ready(function() {
+          // Hide the loading message and show the app container
+          var onReady = function() {
+            document.getElementById('loading').classList.add("display-none");
+            document.getElementById('app').classList.remove("display-none");
+          }
+
+          var app = new VisionTAL(document.getElementById('main'), '/style/', '/img/', onReady);
+        });
+
+      }
+  );
+</script>
 </body>
 </html>

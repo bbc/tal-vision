@@ -1,9 +1,8 @@
 'use strict';
 
-
-module.exports = function tvGetRoute(req, res){
-
+// Simply serves the TAL application
+module.exports = function tvGetRoute(req, res) {
   res.render('default', {
-    title: "TV Screen"
+    title: "Vision - TAL Interface"
   });
 };

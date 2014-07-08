@@ -1,5 +1,8 @@
 'use strict';
 
+// node.js app to serve the Lancaster Vision TAL application and provide a
+// wrapper around an existing remote authentication API
+
 var express = require('express');
 var session = require('express-session');
 var redisStore = require('connect-redis')(session);
@@ -9,17 +12,20 @@ var tal = require('tal');
 var fs = require('fs');
 
 app.configure(function(){
+
+  // We're using HBS for templating
   app.engine('hbs', hbs.express3({
     layoutsDir: __dirname + '/src/templates/layout',
-    defaultLayout:  __dirname + '/src/templates/layout/tv'
+    defaultLayout:  __dirname + '/src/templates/layout/default'
   }));
 
   app.set('view engine', 'hbs');
   app.set('views', __dirname + '/src/templates');
 
-  app.use(express.cookieParser('e9034305e1978a8d27f2b33eafa1b00f708d8620f148245bceb7'));
+  // Setup signed cookies and session storage in Redis
+  app.use(express.cookieParser('T2zCPeTvNX28Q2Zt233R4cUy3kS0q0hbLGk8NB73Ypf1k1cnDuvCMxU5rg2K'));
   app.use(express.session({
-    secret: "d563697315a1894a6f3152658cfd7e9034305e1",
+    secret: "SqmL4rxRWcKA96CKZYNOfiLNivDpgboPRYfpT8FuJa9A3aKPRLqaEH5iRW1R",
     store: new redisStore({
       host: "localhost",
       db: "lancaster-vision-tal",
@@ -57,14 +63,15 @@ app.use(function(req, res, next) {
   next();
 });
 
+// Serve static assets and Bower components
 app.use('/components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/static'));
 
-// App Specific Middlewares
+// Inject TAL middleware
 app.use(tal.middleware());
-app.configure(require('./src/helpers/lancasterAPI')(app));
+//app.configure(require('./src/helpers/lancasterAPI')(app));
 
-// Routing
+// App routing
 app.get('/', require('./src/routes/home'));
 app.get('/iplayer', require('./src/routes/home'));
 app.get('/auth/:auth_code?', require('./src/routes/auth'));
