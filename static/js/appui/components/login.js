@@ -34,13 +34,8 @@ require.def('lancaster-vision/appui/components/login',
         this._form = new Container('signin-form');
         this._outer_list.appendChildWidget(this._form);
 
-//        this._form.appendChildWidget(new Label("Please enter your login code:"));
-
         var list = new List();
         var input = new InputText("******", { placeholder: true });
-
-        //input.addClass('fakeInput');
-        //input.addClass('placeholder')
 
         var button = new Button('ok')
         button.appendChildWidget(new Label("Sign In"));
@@ -63,7 +58,7 @@ require.def('lancaster-vision/appui/components/login',
             keyboard.setActiveChildKey('1');
             input.setText('');
             keyboard.setText('');
-          })
+          });
         });
 
         var keyboard = new Keyboard('auth_key', 12, 1, '1234567890_-');

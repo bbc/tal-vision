@@ -6,7 +6,9 @@
 var express = require('express');
 var session = require('cookie-session')
 var hbs = require('express-hbs');
-var app = express();
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var tal = require('tal');
 var fs = require('fs');
 var cookieParser = require('cookie-parser');
@@ -67,4 +69,21 @@ app.get('/', require('./src/routes/home'));
 app.get('/iplayer', require('./src/routes/home'));
 app.get('/auth/:auth_code?', require('./src/routes/auth'));
 
-app.listen(process.env.PORT || process.env.npm_package_config_port);
+// Websocket routing
+io.on('connection', function(socket){
+  console.log('Session connected');
+
+  socket.on('disconnect', function(){
+    console.log('Session disconnected');
+  });
+
+  socket.on('login', function(msg){
+    io.emit('login', msg);
+  });
+
+  socket.on('play', function(msg){
+    io.emit('play', msg);
+  });
+});
+
+http.listen(process.env.PORT || process.env.npm_package_config_port);

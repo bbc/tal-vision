@@ -14,9 +14,8 @@ require.def('lancaster-vision/appui/components/video',
   function(Container, Component, Button, Label, Image, MediaSource, HorizontalList, VerticalList, ScrubBar, User) {
 
     return Component.extend({
-      init: function (test) {
-        var self, label, button, image, playLabel, pauseLabel;
-        self = this;
+      init: function() {
+        var self = this;
 
         // It is important to call the constructor of the superclass
         this._super("home");
@@ -30,15 +29,15 @@ require.def('lancaster-vision/appui/components/video',
 
         // Scrub bar
         this._scrub = new ScrubBar('scrub', 0, 0.01, 0.05, 1);
-        this._scrub.addEventListener("sliderchangeend", function () {
-            self._scrubbing = false;
-            var time = self._videoPlayer.getDuration() * self._scrub.getValue();
-            self._videoPlayer.setCurrentTime(time)
+        this._scrub.addEventListener("sliderchangeend", function() {
+          self._scrubbing = false;
+          var time = self._videoPlayer.getDuration() * self._scrub.getValue();
+          self._videoPlayer.setCurrentTime(time)
         });
-        this._scrub.addEventListener("sliderchange", function () {
-            self._scrubbing = true;
-            self.showControls();
-            self.setControlsHideTimeout();
+        this._scrub.addEventListener("sliderchange", function() {
+          self._scrubbing = true;
+          self.showControls();
+          self.setControlsHideTimeout();
         });
 
         this._gui_list.appendChildWidget(this._scrub);
@@ -72,12 +71,12 @@ require.def('lancaster-vision/appui/components/video',
         var back = new Button('back');
         back.appendChildWidget(new Label('Back'));
         back.addEventListener('select', function(evt) {
-            self.parentWidget.back();
+          self.parentWidget.back();
         });
 
         this._controls.appendChildWidget(back);
 
-        this.addEventListener("beforerender", function (ev) {
+        this.addEventListener("beforerender", function(ev) {
           self._onBeforeRender(ev);
         });
 
@@ -100,7 +99,7 @@ require.def('lancaster-vision/appui/components/video',
 
         self._app.getRootWidget().getChildWidget("maincontainer").getChildWidget("maincontroller").getMenu().addEventListener("focus", self._focusNavBar);
 
-        this._videoPlayer.addEventListener("timeupdate", function () {
+        this._videoPlayer.addEventListener("timeupdate", function() {
           var player = self._videoPlayer;
           var current_pos = player.getCurrentTime();
 
@@ -113,10 +112,10 @@ require.def('lancaster-vision/appui/components/video',
           var buffer = player.getBuffered();
 
           if(buffer.length != 0)
-          self._scrub.setBufferedRange({
-            start: 0,
-            end: buffer.end(buffer.length - 1) / player.getDuration()
-          });
+            self._scrub.setBufferedRange({
+              start: 0,
+              end: buffer.end(buffer.length - 1) / player.getDuration()
+            });
 
           var currentSeconds = Math.floor(player.getCurrentTime());
 
@@ -179,7 +178,7 @@ require.def('lancaster-vision/appui/components/video',
 
         self.clearControlsHideTimeout();
 
-        self._timeout = window.setTimeout(function () {
+        self._timeout = window.setTimeout(function() {
           self.hideControls();
         }, 4000);
       },
@@ -190,7 +189,7 @@ require.def('lancaster-vision/appui/components/video',
 
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
-      _onBeforeRender: function (e) {
+      _onBeforeRender: function(e) {
         this.hideHeader();
         this.appendChildWidget(this._videoPlayer);
         this.appendChildWidget(this._gui_list);
@@ -202,8 +201,7 @@ require.def('lancaster-vision/appui/components/video',
       queueVideo: function(programme) {
         this._start_time = programme.tal_resume_from || 0;
 
-        console.log("Following programme is about to play:");
-        console.log(programme);
+        console.log("Following programme is about to play: %j", programme);
 
         console.log("start_time = " + this._start_time);
         console.log("programme.tal_resume_from = " + programme.tal_resume_from);

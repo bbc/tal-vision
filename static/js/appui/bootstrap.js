@@ -3,10 +3,9 @@ require.def('lancaster-vision/appui/bootstrap',
     'antie/application',
     'antie/widgets/container',
     'lancaster-vision/lib/authenticator',
-    'antie/widgets/verticallist',
-    'lancaster-vision/lib/user'
+    'lancaster-vision/lib/websocket'
   ],
-  function(Application, Container, Authenticator, VerticalList, User) {
+  function(Application, Container, Authenticator, WebSocket) {
     var _appDiv;
 
     return Application.extend({
@@ -17,6 +16,8 @@ require.def('lancaster-vision/appui/bootstrap',
 
       run: function() {
         var self = this;
+
+        WebSocket.init(this);
 
         // Sets the root widget of the application to be an empty container
         var header_container = new Container();

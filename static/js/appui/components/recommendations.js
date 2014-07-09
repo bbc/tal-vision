@@ -13,11 +13,11 @@ require.def('lancaster-vision/appui/components/recommendations',
     "antie/widgets/carousel/navigators/wrappingnavigator",
     "antie/widgets/carousel/strips/wrappingstrip"
   ],
-  function (Application, Component, DataSource, Carousel, Label, CarouselFormatter, RecommendationsFeed, Binder, AlignFirstHandler, Event, WrappingNavigator, WrappingStrip) {
+  function(Application, Component, DataSource, Carousel, Label, CarouselFormatter, RecommendationsFeed, Binder, AlignFirstHandler, Event, WrappingNavigator, WrappingStrip) {
 
     // All components extend Component
     return Component.extend({
-      init: function () {
+      init: function() {
         var self = this;
         this._super("recommendations_carousel_component");
 
@@ -38,7 +38,7 @@ require.def('lancaster-vision/appui/components/recommendations',
         this._carousel.setNormalisedWidgetAlignPoint(0.5);
 
         // Setup event listeners to set focus on first widget after data binding
-        this._carousel.addEventListener("databound", function (evt) {
+        this._carousel.addEventListener("databound", function(evt) {
           self._onDataBound(evt);
         });
 
@@ -50,13 +50,13 @@ require.def('lancaster-vision/appui/components/recommendations',
         var keyhandler = new AlignFirstHandler();
         keyhandler.attach(this._carousel);
 
-        this.addEventListener("beforerender", function (ev) {
+        this.addEventListener("beforerender", function(ev) {
           self._onBeforeRender(ev);
         });
       },
 
       // Set correct focus once data is loaded
-      _onDataBound: function (evt) {
+      _onDataBound: function(evt) {
         var children = this._carousel.getChildWidgets();
         this._carousel.alignToIndex(0);
         children[0].focus();
@@ -65,6 +65,7 @@ require.def('lancaster-vision/appui/components/recommendations',
         this._carousel.getChildWidgets().forEach(function(widget) {
           widget.addEventListener('select', function(e) {
             try {
+              console.log(e.target.getDataItem());
               widget.bubbleEvent(new Event('vod.show', e.target.getDataItem()));
             }
             catch (e) {
@@ -76,7 +77,7 @@ require.def('lancaster-vision/appui/components/recommendations',
 
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
-      _onBeforeRender: function () {
+      _onBeforeRender: function() {
         this.appendChildWidget(this._carousel);
       }
     });
