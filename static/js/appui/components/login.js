@@ -8,12 +8,11 @@ require.def('lancaster-vision/appui/components/login',
     "antie/widgets/componentcontainer",
     "lancaster-vision/lib/authenticator",
     "bbcrd/widgets/input-text",
-    "lancaster-vision/lib/user"
+    "antie/widgets/image",
   ],
-  function(Component, Button, Keyboard, Label, List, Container, Authenticator, InputText, User) {
-
+  function(Component, Button, Keyboard, Label, List, Container, Authenticator, InputText, Image) {
     return Component.extend({
-      init: function () {
+      init: function() {
         var self = this;
         var app = this.getCurrentApplication();
         var device = app.getDevice();
@@ -23,16 +22,22 @@ require.def('lancaster-vision/appui/components/login',
         this._outer_list = new List("outer_login_list");
 
         var instructions = new Container('instructions');
-        instructions.appendChildWidget(new Label("This is a trial project where you can access Vision via your PlayStation or Smart TV<br><br>Visit Vision on your computer and get your login code, you should only have to do this once."));
+        instructions.appendChildWidget(new Label("Vision is Lancaster University's IPTV service, providing access to over 25,000 recorded programmes from the last 30 days."));
+
+        var pin_screenshot = new Image('pin_screenshot', "/img/pin_code.png");
+        instructions.appendChildWidget(pin_screenshot);
+
+        instructions.appendChildWidget(new Label("screenshot_caption", "Visit Vision on your computer to get your one-time login code."));
+
         this._outer_list.appendChildWidget(instructions);
 
         this._form = new Container('signin-form');
         this._outer_list.appendChildWidget(this._form);
 
-        this._form.appendChildWidget(new Label("Please enter your login code:"));
+//        this._form.appendChildWidget(new Label("Please enter your login code:"));
 
         var list = new List();
-        var input = new InputText("********", { placeholder: true });
+        var input = new InputText("******", { placeholder: true });
 
         //input.addClass('fakeInput');
         //input.addClass('placeholder')
@@ -42,21 +47,19 @@ require.def('lancaster-vision/appui/components/login',
         button.addClass('okButton');
         button.setDisabled(true);
 
-        input.addEventListener('empty', function(){
+        input.addEventListener('empty', function() {
           button.setDisabled(true);
         });
-        input.addEventListener('not-empty', function(){
+        input.addEventListener('not-empty', function() {
           button.setDisabled(false);
         });
 
-        button.addEventListener('select', function(e){
+        button.addEventListener('select', function(e) {
           button.setDisabled(true);
 
-          Authenticator(device).verify(keyboard.getText(), function(response) {
-            response = JSON.parse(response);
-            User.setUserId(response.user_id);
+          Authenticator(device).verify(keyboard.getText(), function() {
             app.showComponent('maincontainer', 'lancaster-vision/appui/controller');
-          }, function(){
+          }, function() {
             keyboard.setActiveChildKey('1');
             input.setText('');
             keyboard.setText('');
@@ -65,7 +68,7 @@ require.def('lancaster-vision/appui/components/login',
 
         var keyboard = new Keyboard('auth_key', 12, 1, '1234567890_-');
         keyboard.setActiveChildKey('1');
-        keyboard.addEventListener('textchange', function(e){
+        keyboard.addEventListener('textchange', function(e) {
           input.setText(e.text);
         });
 
@@ -74,7 +77,7 @@ require.def('lancaster-vision/appui/components/login',
         list.appendChildWidget(button);
         this._form.appendChildWidget(list);
 
-        this.addEventListener("beforerender", function(e){
+        this.addEventListener("beforerender", function(e) {
           self._onBeforeRender(e);
         });
 
@@ -88,7 +91,7 @@ require.def('lancaster-vision/appui/components/login',
 
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
-      _onBeforeRender: function () {
+      _onBeforeRender: function() {
         this.appendChildWidget(this._outer_list);
       }
     });

@@ -50,19 +50,18 @@
   };
 
   require(['{{tal.app_id}}/appui/bootstrap'],
-      function(VisionTAL) {
+    function(Vision) {
+      require.ready(function() {
+        // $("#debug").html("test" + document.cookie);
 
-        require.ready(function() {
-          // Hide the loading message and show the app container
-          var onReady = function() {
-            document.getElementById('loading').classList.add("display-none");
-            document.getElementById('app').classList.remove("display-none");
-          }
-
-          var app = new VisionTAL(document.getElementById('main'), '/style/', '/img/', onReady);
+        // Hide the loading message and show the app container
+        var app = new Vision(document.getElementById('main'), '/style/', '/img/', function() {
+          $('#loading').addClass("display-none");
+          $('#app').removeClass("display-none");
         });
 
-      }
+      });
+    }
   );
 </script>
 </body>

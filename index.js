@@ -4,51 +4,37 @@
 // wrapper around an existing remote authentication API
 
 var express = require('express');
-var session = require('express-session');
-var redisStore = require('connect-redis')(session);
+var session = require('cookie-session')
 var hbs = require('express-hbs');
 var app = express();
 var tal = require('tal');
 var fs = require('fs');
+var cookieParser = require('cookie-parser');
+var util = require('util');
 
-app.configure(function(){
+// We're using HBS for templating
+app.engine('hbs', hbs.express3({
+  layoutsDir: __dirname + '/src/templates/layout',
+  defaultLayout: __dirname + '/src/templates/layout/default'
+}));
 
-  // We're using HBS for templating
-  app.engine('hbs', hbs.express3({
-    layoutsDir: __dirname + '/src/templates/layout',
-    defaultLayout:  __dirname + '/src/templates/layout/default'
-  }));
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/src/templates');
 
-  app.set('view engine', 'hbs');
-  app.set('views', __dirname + '/src/templates');
+var cookieLength = 1000 * 60 * 60 * 24 * 30; // 30 days
 
-  // Setup signed cookies and session storage in Redis
-  app.use(express.cookieParser('T2zCPeTvNX28Q2Zt233R4cUy3kS0q0hbLGk8NB73Ypf1k1cnDuvCMxU5rg2K'));
-  app.use(express.session({
-    secret: "SqmL4rxRWcKA96CKZYNOfiLNivDpgboPRYfpT8FuJa9A3aKPRLqaEH5iRW1R",
-    store: new redisStore({
-      host: "localhost",
-      db: "lancaster-vision-tal",
-      url : process.env.REDISTOGO_URL || null
-    }),
-    cookie: {
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
-      maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days
-    }
-  }));
+// Setup signed cookies and session storage in Redis
+app.use(cookieParser("T2zCPeTvNX28Q2Zt233R4cUy3kS0q0hbLGk8NB73Ypf1k1cnDuvCMxU5rg2K"));
+app.use(session({
+  name: "vision-tal-v1.4",
+  keys: ['T2zCPeTvNX28Q2Zt233R4cUy3kS0q0hbLGk8NB73Ypf1k1cnDuvCMxU5rg2K'],
+  expires: new Date(Date.now() + cookieLength),
+  httpOnly: true,
+  maxage: cookieLength
+}));
 
-  require('./src/templates/helpers')(hbs);
-});
-
-// Simple request logger
-app.use(function(req, res, next) {
-  console.log('%s %s', req.method, req.url);
-  next();
-});
-
-// Express logger
-var logFile = fs.createWriteStream('./tal.log', {flags: 'a'});
-app.use(express.logger({stream: logFile}));
+// Include view helpers
+require('./src/templates/helpers')(hbs);
 
 // Detect custom test devices and populate device and model req params
 app.use(function(req, res, next) {
@@ -67,9 +53,14 @@ app.use(function(req, res, next) {
 app.use('/components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/static'));
 
+// Simple request logger
+app.use(function(req, res, next) {
+  console.log('%s %s %j', req.method, req.url);
+  next();
+});
+
 // Inject TAL middleware
 app.use(tal.middleware());
-//app.configure(require('./src/helpers/lancasterAPI')(app));
 
 // App routing
 app.get('/', require('./src/routes/home'));

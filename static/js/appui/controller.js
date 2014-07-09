@@ -5,11 +5,12 @@ require.def('lancaster-vision/appui/controller',
     "antie/widgets/label",
     "antie/widgets/componentcontainer",
     "antie/widgets/verticallist",
-    "antie/widgets/horizontallist"
+    "antie/widgets/horizontallist",
+    "lancaster-vision/lib/authenticator"
   ],
-  function(Component, Button, Label, ComponentContainer, VerticalList, HorizontalList) {
+  function(Component, Button, Label, ComponentContainer, VerticalList, HorizontalList, Authenticator) {
 
-    var createLabelledButton = function (label, id, options){
+    var createLabelledButton = function(label, id, options) {
       var button = new Button(id);
       var label = new Label(label);
 
@@ -22,7 +23,7 @@ require.def('lancaster-vision/appui/controller',
     };
 
     return Component.extend({
-      init: function () {
+      init: function() {
         var self = this;
 
         this._super("maincontroller");
@@ -39,7 +40,7 @@ require.def('lancaster-vision/appui/controller',
         menu.appendChildWidget(createLabelledButton('Search', 'search'));
 
         // Launch the components
-        menu.getChildWidgets().forEach(function(widget){
+        menu.getChildWidgets().forEach(function(widget) {
           widget.addEventListener('select', function() {
             skeleton.getChildWidget('content-container').pushComponent('lancaster-vision/appui/components/' + widget.id);
           });
@@ -49,6 +50,17 @@ require.def('lancaster-vision/appui/controller',
         var reloadButton = createLabelledButton('Reload', 'reload')
         menu.appendChildWidget(reloadButton);
         reloadButton.addEventListener('select', function() {
+          location.reload();
+        });
+
+        // Logout button
+        var app = this.getCurrentApplication();
+
+        var logoutButton = createLabelledButton('Logout', 'logout')
+        menu.appendChildWidget(logoutButton);
+        logoutButton.addEventListener('select', function() {
+          console.log("Logout button pressed");
+          Authenticator(app.getDevice()).logout();
           location.reload();
         });
 
@@ -85,7 +97,7 @@ require.def('lancaster-vision/appui/controller',
         //
         this._skeleton = skeleton;
 
-        this.addEventListener("beforerender", function (e) {
+        this.addEventListener("beforerender", function(e) {
           self._onBeforeRender(e);
         });
 
@@ -99,7 +111,7 @@ require.def('lancaster-vision/appui/controller',
 
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
-      _onBeforeRender: function () {
+      _onBeforeRender: function() {
         var self = this;
 
         self.appendChildWidget(this._skeleton);

@@ -1,7 +1,7 @@
 * {
   margin: 0px;
   padding: 0px;
-  line-height: 1em;
+  /*line-height: 1em;*/
 }
 
 /* Document */
@@ -11,7 +11,8 @@ html {
 
 body {
   background: #1d1d1d;
-  font-family: Arial, "Helvetica", sans-serif;
+  font-family: "Helvetica", Arial, sans-serif;
+  line-height: 22px;
   font-size: 16px;
   height: 100%;
   color: #fff;
@@ -186,13 +187,39 @@ body {
   color: black;
 }
 
+#login span.placeholder {
+    display: block;
+    height: 24px;
+    font-size: 24px;
+    margin: 10px 0 20px;
+    text-align: center;
+    letter-spacing: 1em;
+    font-weight: bold;
+}
+
+#login #signin-form .label {
+    line-height: 30px;
+}
+
 #instructions, #signin-form {
   background-color: white;
-  padding: 20px;  
+  padding: 20px;
+  border-radius: 5px;
 }
 
 #instructions {
   margin-bottom: 20px;
+}
+
+#pin_screenshot {
+    text-align: center;
+}
+
+#screenshot_caption {
+    text-align: center;
+    font-size: 0.8em;
+    display: block;
+    font-style: italic;
 }
 
 #signin-form .listitem {
@@ -384,7 +411,7 @@ body {
 }
 
 #history_progress_left, #search_progress_left {
-  width: 900px;   
+  width: 900px;
   margin: 0 auto;
   height: 4px;
   overflow: visible;

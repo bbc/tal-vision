@@ -21,8 +21,9 @@ module.exports = function verifySession(req, res) {
 
       // Vision's auth api either returns HTTP 500, or empty JSON document
       if(response.statusCode == 500 || error) {
-        console.log("[Core API] HTTP 500, probably because PIN code isn't valid")
+        console.log("[Core API] HTTP 500, probably because PIN code isn't valid");
         replyFailure();
+        return;
       }
 
       // If credentials are valid the JSON document will contain a user record

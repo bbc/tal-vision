@@ -7,50 +7,41 @@ require.def('lancaster-vision/appui/bootstrap',
     'lancaster-vision/lib/user'
   ],
   function(Application, Container, Authenticator, VerticalList, User) {
+    var _appDiv;
 
     return Application.extend({
       init: function(appDiv, styleDir, imgDir, callback) {
-        var self;
-        self = this;
-
-        self._super(appDiv, styleDir, imgDir, callback);
-
-        // Sets the root widget of the application to be
-        // an empty container
-        self._setRootContainer = function() {
-          var header_container = new Container();
-          header_container.outputElement = appDiv;
-
-          self.setRootWidget(header_container);
-        };
-
+        this._super(appDiv, styleDir, imgDir, callback);
+        _appDiv = appDiv;
       },
 
       run: function() {
         var self = this;
 
-        this._setRootContainer();
+        // Sets the root widget of the application to be an empty container
+        var header_container = new Container();
+        header_container.outputElement = _appDiv;
+        self.setRootWidget(header_container);
 
+        // Dismiss the PlayStation 3 overlay
         self.nativeCommand("dismissSplash");
 
         Authenticator(this.getDevice()).isAuthenticated(
-          function success(response){
-            response = JSON.parse(response);
-            User.setUserId(response.user_id);
+          function success() {
             self.addComponentContainer("maincontainer", "lancaster-vision/appui/controller");
           },
-          function failure(response){
+          function failure() {
             self.addComponentContainer("maincontainer", "lancaster-vision/appui/components/login");
           }
         );
       },
 
-      nativeCommand: function (command) {
-          var hash = {
-            command: command
-          };
-          var json = JSON.stringify(hash);
-          window.external && window.external.user && window.external.user(json);
+      nativeCommand: function(command) {
+        var hash = {
+          command: command
+        };
+        var json = JSON.stringify(hash);
+        window.external && window.external.user && window.external.user(json);
       },
     });
   }
