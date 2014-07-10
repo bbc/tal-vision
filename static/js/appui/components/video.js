@@ -65,6 +65,14 @@ require.def('lancaster-vision/appui/components/video',
           }
         });
 
+        this.addEventListener('vod.pause', function(e) {
+          self._videoPlayer.pause();
+        });
+
+        this.addEventListener('vod.resume', function(e) {
+          self._videoPlayer.play();
+        });
+
         this._controls.appendChildWidget(this._playPause);
 
         // Back button
@@ -122,18 +130,11 @@ require.def('lancaster-vision/appui/components/video',
           // Only true once per second
           if(currentSeconds != this._last_segment_second) {
             if(currentSeconds % 5 == 0 && (currentSeconds != null)) {
-
               if(currentSeconds < this._last_segment_second || currentSeconds > this._last_segment_second + 5) {
                 self._last_segment_start = currentSeconds;
-                console.log("Logging skipped segment " + self._last_segment_start + ":" + currentSeconds);
-              } else {
-                console.log("Logging normal segment " + self._last_segment_start + ":" + currentSeconds);
               }
 
-              $('#debug').append('<p>Sending stats</p>');
-
               self.logPlayerSegment(self._last_segment_start, currentSeconds);
-
               this._last_segment_second = currentSeconds;
             }
           }
@@ -144,7 +145,6 @@ require.def('lancaster-vision/appui/components/video',
         // the callback removes itself once it's fired to avoid multiple calls.
         this.addEventListener("aftershow", function(ev) {
           document.getElementById("player").addEventListener("loadedmetadata", function() {
-            console.log("Moving player time to to: " + self._start_time);
             self._videoPlayer.setCurrentTime(self._start_time);
           });
 
@@ -202,9 +202,6 @@ require.def('lancaster-vision/appui/components/video',
         this._start_time = programme.tal_resume_from || 0;
 
         console.log("Following programme is about to play: %j", programme);
-
-        console.log("start_time = " + this._start_time);
-        console.log("programme.tal_resume_from = " + programme.tal_resume_from);
 
         this._last_segment_start = this._start_time;
         this._last_segment_second = this._start_time;

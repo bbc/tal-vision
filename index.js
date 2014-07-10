@@ -70,19 +70,27 @@ app.get('/iplayer', require('./src/routes/home'));
 app.get('/auth/:auth_code?', require('./src/routes/auth'));
 
 // Websocket routing
-io.on('connection', function(socket){
+io.on('connection', function(socket) {
   console.log('Session connected');
 
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function() {
     console.log('Session disconnected');
   });
 
-  socket.on('login', function(msg){
-    io.emit('login', msg);
+  socket.on('login', function(msg) {
+    socket.broadcast.emit('login', msg);
   });
 
-  socket.on('play', function(msg){
-    io.emit('play', msg);
+  socket.on('play', function(programme_id) {
+    socket.broadcast.emit('play', programme_id);
+  });
+
+  socket.on('pause', function() {
+    socket.broadcast.emit('pause', { });
+  });
+
+  socket.on('resume', function() {
+    socket.broadcast.emit('resume');
   });
 });
 

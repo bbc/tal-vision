@@ -12,7 +12,7 @@ require.def('lancaster-vision/appui/components/search',
   function(Component, Button, Keyboard, Label, List, Container, InputText, Event) {
 
     return Component.extend({
-      init: function () {
+      init: function() {
         var self = this;
         this._app = this.getCurrentApplication();
 
@@ -46,14 +46,14 @@ require.def('lancaster-vision/appui/components/search',
         this._outer_list.appendChildWidget(this._form);
 
         // Events
-        keyboard.addEventListener('textchange', function(e){
+        keyboard.addEventListener('textchange', function(e) {
           self._input.setText(e.text);
         });
 
-        this._input.addEventListener('empty', function(){
+        this._input.addEventListener('empty', function() {
           self._button.setDisabled(true);
         });
-        this._input.addEventListener('not-empty', function(){
+        this._input.addEventListener('not-empty', function() {
           self._button.setDisabled(false);
         });
 
@@ -63,21 +63,21 @@ require.def('lancaster-vision/appui/components/search',
         });
 
         this.addEventListener("beforerender", function(e) {
-          self._onBeforeRender(e);
+          self._onBeforeRender();
         });
 
         // calls Application.ready() the first time the component is shown
         // the callback removes itself once it's fired to avoid multiple calls.
         this.addEventListener("aftershow", function appReady() {
           self.getCurrentApplication().ready();
-          self.removeEventListener('aftershow', appReady);
         });
       },
 
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
-      _onBeforeRender: function () {
+      _onBeforeRender: function() {
         this.appendChildWidget(this._outer_list);
+        this._outer_list.focus();
       }
     });
   }
