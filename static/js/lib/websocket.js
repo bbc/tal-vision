@@ -15,15 +15,18 @@ require.def('lancaster-vision/lib/websocket',
           location.reload();
         });
 
-        this._socket.on('play', function(programme_id) {
-          app.broadcastEvent(new Event('vod.show', { programme_id: programme_id }));
+        this._socket.on('play', function(req) {
+          app.broadcastEvent(new Event('vod.show', {
+            programme_id: req.programme_id,
+            tal_resume_from: req.start_at
+          }));
         });
 
-        this._socket.on('pause', function(programme_id) {
+        this._socket.on('pause', function() {
           app.broadcastEvent(new Event('vod.pause'));
         });
 
-        this._socket.on('resume', function(programme_id) {
+        this._socket.on('resume', function() {
           app.broadcastEvent(new Event('vod.resume'));
         });
       },

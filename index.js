@@ -81,8 +81,8 @@ io.on('connection', function(socket) {
     socket.broadcast.emit('login', msg);
   });
 
-  socket.on('play', function(programme_id) {
-    socket.broadcast.emit('play', programme_id);
+  socket.on('play', function(req) {
+    socket.broadcast.emit('play', req);
   });
 
   socket.on('pause', function() {
