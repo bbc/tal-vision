@@ -14,6 +14,8 @@ var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var util = require('util');
 
+//io.set('origins', '*');
+
 // We're using HBS for templating
 app.engine('hbs', hbs.express3({
   layoutsDir: __dirname + '/src/templates/layout',
@@ -69,29 +71,84 @@ app.get('/', require('./src/routes/home'));
 app.get('/iplayer', require('./src/routes/home'));
 app.get('/auth/:auth_code?', require('./src/routes/auth'));
 
+var socket_rooms = {};
+var socket_connections = {};
+
 // Websocket routing
 io.on('connection', function(socket) {
-  console.log('Session connected');
+  console.log('WS_CONNECT %s', socket.id);
+
+  socket_connections[socket.id] = socket;
+  socket.user_id = -1;
+
+  socket.on('set_room', function(msg) {
+    console.log('SET_ROOM for user ID %s', msg.user_id);
+
+    // Create custom room if not exist
+    if(!socket_rooms[msg.user_id]) {
+      socket_rooms[msg.user_id] = [];
+    }
+
+    // Push this new room subscription to the user's room
+    socket_rooms[msg.user_id].push({
+      device_name: msg.device_name,
+      can_playback: msg.can_playback,
+      socket_id: socket.id,
+      user_agent: msg.user_agent
+    });
+
+    socket.user_id = msg.user_id;
+    socket.join(msg.user_id);
+
+    // Announce the new device to the user's other devices
+    io.to(msg.user_id).emit('connected_devices', socket_rooms[msg.user_id]);
+  });
 
   socket.on('disconnect', function() {
-    console.log('Session disconnected');
+    console.log('WS_DISCONNECT for user ID %s', socket.user_id);
+
+    // Remove the device from the user's devices room
+    if(socket_rooms[socket.user_id]) {
+      for(var i = socket_rooms[socket.user_id].length -1; i >= 0 ; i--){
+        if(socket_rooms[socket.user_id][i].socket_id == socket.id) {
+          socket_rooms[socket.user_id].splice(i, 1);
+        }
+      }
+    }
+
+    // Remove our user ID <=> socket ID reference
+    delete socket_connections[socket.id];
+
+    // Announce the new device to the user's other devices
+    io.to(socket.user_id).emit('connected_devices', socket_rooms[socket.user_id]);
   });
 
   socket.on('login', function(msg) {
-    socket.broadcast.emit('login', msg);
+    io.to(socket.user_id).emit('login', msg);
   });
 
   socket.on('play', function(req) {
-    socket.broadcast.emit('play', req);
+    if (socket_connections[req.socket_id]) {
+      socket_connections[req.socket_id].emit('play', req);
+      console.log("WS_PLAY from socket %s to %s, user ID %s", socket.socket_id, req.socket_id, req.user_id);
+    } else {
+      console.log("WS_PLAY_SOCKET_UNKNOWN from socket %s to %s, user ID %s", socket.socket_id, req.socket_id, req.user_id);
+    }
   });
 
-  socket.on('pause', function() {
-    socket.broadcast.emit('pause', { });
+  socket.on('pause', function(req) {
+    if (socket_connections[req.socket_id]) {
+      socket_connections[req.socket_id].emit('pause');
+      console.log("WS_PAUSE from socket %s to %s, user ID %s", socket.socket_id, req.socket_id, req.user_id);
+    } else {
+      console.log("WS_PAUSE_SOCKET_UNKNOWN from socket %s to %s, user ID %s", socket.socket_id, req.socket_id, req.user_id);
+    }
   });
 
-  socket.on('resume', function() {
-    socket.broadcast.emit('resume');
-  });
+//  socket.on('resume', function() {
+//    io.to(socket.user_id).emit('resume');
+//    console.log("Resume command for user ID = %s", socket.user_id);
+//  });
 });
 
 http.listen(process.env.PORT || process.env.npm_package_config_port);

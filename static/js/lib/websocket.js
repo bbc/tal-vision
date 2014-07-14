@@ -16,6 +16,7 @@ require.def('lancaster-vision/lib/websocket',
         });
 
         this._socket.on('play', function(req) {
+          console.log("Got a play request: ", req);
           app.broadcastEvent(new Event('vod.show', {
             programme_id: req.programme_id,
             tal_resume_from: req.start_at
@@ -28,6 +29,10 @@ require.def('lancaster-vision/lib/websocket',
 
         this._socket.on('resume', function() {
           app.broadcastEvent(new Event('vod.resume'));
+        });
+
+        this._socket.on('connected_devices', function(msg) {
+          console.log("connected_devices: ", msg);
         });
       },
       getSocket: function() {
