@@ -16,11 +16,11 @@ require.def('lancaster-vision/appui/components/searchresults',
     "antie/widgets/button",
     "lancaster-vision/lib/user"
   ],
-  function (Application, Component, DataSource, Carousel, Label, SearchFormatter, SearchFeed, Binder, AlignFirstHandler, Event, VerticalList, HorizontalProgress, WrappingNavigator, Button, User) {
+  function(Application, Component, DataSource, Carousel, Label, SearchFormatter, SearchFeed, Binder, AlignFirstHandler, Event, VerticalList, HorizontalProgress, WrappingNavigator, Button, User) {
 
     // All components extend Component
     return Component.extend({
-      init: function () {
+      init: function() {
         var self = this;
         this._super("search_results");
 
@@ -48,7 +48,7 @@ require.def('lancaster-vision/appui/components/searchresults',
           var index = ev.alignedIndex;
           var total = self._carousel.items().length;
 
-          self._progress.setValue(index/(total - 1));
+          self._progress.setValue(index / (total - 1));
           self._progress.setText((index + 1) + " of " + total);
         });
 
@@ -57,11 +57,11 @@ require.def('lancaster-vision/appui/components/searchresults',
         keyhandler.attach(this._carousel);
 
         // Setup event listeners to set focus on first widget after data binding
-        this._carousel.addEventListener("databound", function (ev) {
+        this._carousel.addEventListener("databound", function(ev) {
           self._onDataBound(ev);
         });
 
-        this.addEventListener("beforerender", function (ev) {
+        this.addEventListener("beforerender", function(ev) {
           self._onBeforeRender(ev);
         });
 
@@ -81,7 +81,7 @@ require.def('lancaster-vision/appui/components/searchresults',
         binder.appendAllTo(this._carousel);
       },
 
-      _onDataBound: function (ev) {
+      _onDataBound: function(ev) {
         var children = this._carousel.getChildWidgets();
 
         if(children.length == 0) {
@@ -118,7 +118,7 @@ require.def('lancaster-vision/appui/components/searchresults',
 
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
-      _onBeforeRender: function (ev) {
+      _onBeforeRender: function(ev) {
         var search_term = ev.args;
         console.log("Received search term %s", search_term);
 
@@ -126,7 +126,7 @@ require.def('lancaster-vision/appui/components/searchresults',
         try {
           this.load_data(search_term);
           this._onDataBound();
-        } catch(err) {
+        } catch (err) {
           console.log(err);
         }
 

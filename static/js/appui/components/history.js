@@ -142,7 +142,8 @@ require.def('lancaster-vision/appui/components/history',
           data: {
             api: "53e659a15aff4a402de2d51b98703fa1ade5b8c5",
             log_type: "TAL_HISTORY",
-            user_id: User.getUserId()
+            user_id: User.getUserId(),
+            attributes: JSON.stringify({})
           }
         });
       }
