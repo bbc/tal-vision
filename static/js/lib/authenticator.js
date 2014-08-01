@@ -1,9 +1,10 @@
 require.def('lancaster-vision/lib/authenticator',
   [
     'antie/storageprovider',
-    'lancaster-vision/lib/user'
+    'lancaster-vision/lib/user',
+    'lancaster-vision/lib/websocket'
   ],
-  function(StorageProvider, User) {
+  function(StorageProvider, User, WebSocket) {
     return function(device) {
       var self = {
         verify: function(token, successCallback, failureCallback) {
@@ -14,7 +15,9 @@ require.def('lancaster-vision/lib/authenticator',
               // Store the user ID in a local cookie
               var storage = device.getStorage(StorageProvider.STORAGE_TYPE_PERSISTENT, "vision-v0.1");
               storage.setItem("user_id", response.user_id);
+              console.log("Setting user ID")
               User.setUserId(response.user_id);
+              User.setRoom();
 
               successCallback(response);
             },

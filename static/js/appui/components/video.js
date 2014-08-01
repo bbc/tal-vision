@@ -9,9 +9,11 @@ require.def('lancaster-vision/appui/components/video',
     "antie/widgets/horizontallist",
     "antie/widgets/verticallist",
     "antie/widgets/scrubbar",
-    "lancaster-vision/lib/user"
+    "lancaster-vision/lib/user",
+    'lancaster-vision/lib/websocket'
   ],
-  function(Container, Component, Button, Label, Image, MediaSource, HorizontalList, VerticalList, ScrubBar, User) {
+  function(Container, Component, Button, Label, Image, MediaSource, HorizontalList,
+    VerticalList, ScrubBar, User, WebSocket) {
 
     return Component.extend({
       init: function() {
@@ -71,6 +73,10 @@ require.def('lancaster-vision/appui/components/video',
 
         this.addEventListener('vod.resume', function(e) {
           self._videoPlayer.play();
+        });
+
+        this.addEventListener('vod.stop', function(e) {
+          self._videoPlayer.stop();
         });
 
         this._controls.appendChildWidget(this._playPause);
@@ -136,6 +142,13 @@ require.def('lancaster-vision/appui/components/video',
 
               self.logPlayerSegment(self._last_segment_start, currentSeconds);
               this._last_segment_second = currentSeconds;
+
+              // Broadcast the 5 second time update over Socket
+              WebSocket.getSocket().emit('progress_update', {
+                user_id: User.getUserId(),
+                programme_id: self.programme.programme_id,
+                position: currentSeconds
+              });
             }
           }
 
@@ -190,11 +203,13 @@ require.def('lancaster-vision/appui/components/video',
       // Appending widgets on beforerender ensures they're still displayed
       // if the component is hidden and subsequently reinstated.
       _onBeforeRender: function(e) {
+        this.programme = e.args;
+
         this.hideHeader();
         this.appendChildWidget(this._videoPlayer);
         this.appendChildWidget(this._gui_list);
         this.setControlsHideTimeout();
-        this.logPlayerInstance(e.args);
+        this.logPlayerInstance(this.programme);
         this.queueVideo(e.args);
       },
 

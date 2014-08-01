@@ -149,6 +149,12 @@ io.on('connection', function(socket) {
 //    io.to(socket.user_id).emit('resume');
 //    console.log("Resume command for user ID = %s", socket.user_id);
 //  });
+
+ socket.on('progress_update', function(data) {
+   console.log("progress_update from %s = %j", socket.id, data);
+   data['socket_id'] = socket.id;
+   io.to(socket.user_id).emit('progress_update', data);
+ });
 });
 
 http.listen(process.env.PORT || process.env.npm_package_config_port);
